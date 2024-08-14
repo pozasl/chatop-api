@@ -3,14 +3,18 @@
 {
 	"name": "Debian 12 Java 17",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/base:bookworm",
-	"features": {
-		"ghcr.io/devcontainers/features/java:1": { "version": "17" },
-        // To run MySQL container from devcontainer
-		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
-        // To test API
-		"ghcr.io/frntn/devcontainers-features/postman:1": {}
-	}
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"shutdownAction": "stopCompose"
+	// "features": {
+	// 	"ghcr.io/devcontainers/features/java:1": { "version": "17" },
+    //     // To run MySQL container from devcontainer
+	// 	"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+    //     // To test API
+	// 	"ghcr.io/frntn/devcontainers-features/postman:1": {}
+	// },
+	// "remoteEnv": { "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}" }
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
@@ -22,4 +26,5 @@
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
+	
 }
