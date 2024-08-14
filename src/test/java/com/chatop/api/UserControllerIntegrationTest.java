@@ -27,5 +27,11 @@ public class UserControllerIntegrationTest {
         .andExpect(jsonPath("$.created_at", is("14/08/2024")))
         .andExpect(jsonPath("$.updated_at", is("14/08/2024")));
     }
+
+    @Test
+    public void testGetUserByIdShould404() throws Exception {
+        mockMvc.perform(get("/api/user/999"))
+        .andExpect(status().isNotFound());
+    }
     
 }
