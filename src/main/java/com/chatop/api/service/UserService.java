@@ -47,8 +47,8 @@ public class UserService {
         BeanUtils.copyProperties(entity, user);
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-        user.setCreatedAt(df.format(entity.getCreationDate()));
-        user.setUpdatedAt(df.format(entity.getModificationDate()));
+        user.setCreated(df.format(entity.getCreationDate()));
+        user.setUpdated(df.format(entity.getModificationDate()));
         return user;
     }
     

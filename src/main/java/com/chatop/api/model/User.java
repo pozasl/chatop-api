@@ -1,11 +1,19 @@
 package com.chatop.api.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 public class User {
   private int id;
   private String name;
   private String email;
-  private String created_at;
-  private String updated_at;
+
+  @JsonProperty("created_at")
+  private String created;
+
+  @JsonProperty("updated_at")
+  private String updated;
 
   public int getId() {
     return this.id;
@@ -34,21 +42,25 @@ public class User {
     return this;
   }
 
-  public String getCreatedAt() {
-    return this.created_at;
+  @JsonGetter("created_at")
+  public String getCreated() {
+    return this.created;
   }
 
-  public User setCreatedAt(String creationDateStr) {
-    this.created_at = creationDateStr;
+  @JsonSetter("created_at")
+  public User setCreated(String creationDateStr) {
+    this.created = creationDateStr;
     return this;
   }
 
-  public String getUpdatedAt() {
-    return this.updated_at;
+  @JsonGetter("updated_at")
+  public String getUpdated() {
+    return this.updated;
   }
 
-  public User setUpdatedAt(String modificationDateStr) {
-    this.updated_at = modificationDateStr;
+  @JsonSetter("updated_at")
+  public User setUpdated(String modificationDateStr) {
+    this.updated = modificationDateStr;
     return this;
   }
 }
