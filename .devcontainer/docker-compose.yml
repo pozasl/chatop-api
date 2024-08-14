@@ -22,7 +22,7 @@ services:
       - MYSQL_ROOT_HOST=172.*.*.*
       - MYSQL_DATABASE=chatop
       - MYSQL_USER=chatop
-      - MYSQL_PASSWORD=Ch@T0p
+      - MYSQL_PASSWORD=Ch4T0p
     volumes:
       - ../src/main/resources/sql/script.sql:/docker-entrypoint-initdb.d/script.sql
       - mysql-data:/var/lib/mysql
