@@ -44,3 +44,5 @@ CREATE UNIQUE INDEX `users_index` ON `users` (`email`);
 ALTER TABLE `rentals` ADD FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`);
 ALTER TABLE `messages` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 ALTER TABLE `messages` ADD FOREIGN KEY (`rental_id`) REFERENCES `rentals` (`id`);
+
+INSERT INTO users (email, name, password, created_at, updated_at) VALUES ("bob@test.com", "bob", "pass", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
