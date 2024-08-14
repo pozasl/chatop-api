@@ -15,7 +15,7 @@ services:
     network_mode: service:mysql-server
 
   mysql-server:
-    image: mysql
+    image: mysql:lts
     container_name: mysql-server
     environment:
       - MYSQL_ROOT_PASSWORD=r00t
