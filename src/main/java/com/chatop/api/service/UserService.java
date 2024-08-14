@@ -1,11 +1,14 @@
 package com.chatop.api.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.chatop.api.exception.ResourceNotFoundException;
+import com.chatop.api.model.User;
 import com.chatop.api.model.UserEntity;
 import com.chatop.api.repository.UserRepository;
 
@@ -32,6 +35,17 @@ public class UserService {
     public UserEntity saveUser(UserEntity user) {
             UserEntity savedUser = this.userRepository.save(user);
             return savedUser;
+    }
+
+    public User entityToModel(UserEntity entity) {
+        User user = new User();
+        if(Objects.isNull(entity)) {
+            return user;
+        }
+        BeanUtils.copyProperties(entity, user);
+        user.setCreated(entity.getCreationDate());
+        user.setModified(entity.getModificationDate());
+        return user;
     }
     
 }

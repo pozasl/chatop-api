@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chatop.api.model.UserEntity;
+import com.chatop.api.model.User;
 import com.chatop.api.service.UserService;
 
 @RestController
@@ -16,9 +16,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user:id")
-    public UserEntity getUserById(@PathVariable int id) throws Exception {
-        return this.userService.getUserById(id);
+    @GetMapping("/user/{id}")
+    public User getUserById(@PathVariable int id) throws Exception {
+        
+        return this.userService.entityToModel(this.userService.getUserById(id));
     }
 
 }
