@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.chatop.api.exception.ResourceNotFoundException;
+import com.chatop.api.model.NewUser;
 import com.chatop.api.model.User;
 import com.chatop.api.model.UserEntity;
 import com.chatop.api.repository.UserRepository;
@@ -50,6 +51,13 @@ public class UserService {
         user.setCreated(df.format(entity.getCreationDate()));
         user.setUpdated(df.format(entity.getModificationDate()));
         return user;
+    }
+
+    public UserEntity create(NewUser newUser) throws Exception {
+        UserEntity entity = new UserEntity();
+        BeanUtils.copyProperties(newUser, entity);
+        // TODO: Hash Password
+        return this.userRepository.save(entity);
     }
     
 }
