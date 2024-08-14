@@ -10,13 +10,13 @@ import com.chatop.api.model.User;
 import com.chatop.api.service.UserService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public User getUserById(@PathVariable int id) throws Exception {
         
         return this.userService.entityToModel(this.userService.getUserById(id));
