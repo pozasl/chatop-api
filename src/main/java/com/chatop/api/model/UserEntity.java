@@ -1,6 +1,6 @@
 package com.chatop.api.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,13 +11,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "USERS")
 public class UserEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private int id;
 
   private String email;
   private String name;
@@ -25,17 +27,19 @@ public class UserEntity {
 
   @Column(name = "created_at")
   @CreationTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
   private Date creationDate;
 
   @Column(name = "updated_at")
   @UpdateTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
   private Date modificationDate;
 
-  public Long getId() {
+  public int getId() {
     return this.id;
   }
 
-  public UserEntity setId(Long id) {
+  public UserEntity setId(int id) {
     this.id = id;
     return this;
   }
