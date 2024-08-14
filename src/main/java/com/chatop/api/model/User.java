@@ -1,13 +1,11 @@
 package com.chatop.api.model;
 
-import java.util.Date;
-
 public class User {
   private int id;
   private String name;
   private String email;
-  private Date created;
-  private Date modiied;
+  private String created_at;
+  private String updated_at;
 
   public int getId() {
     return this.id;
@@ -36,21 +34,21 @@ public class User {
     return this;
   }
 
-  public Date getCreated() {
-    return this.created;
+  public String getCreatedAt() {
+    return this.created_at;
   }
 
-  public User setCreated(Date creationDate) {
-    this.created = creationDate;
+  public User setCreatedAt(String creationDateStr) {
+    this.created_at = creationDateStr;
     return this;
   }
 
-  public Date getModified() {
-    return this.modiied;
+  public String getUpdatedAt() {
+    return this.updated_at;
   }
 
-  public User setModified(Date modificationDate) {
-    this.modiied = modificationDate;
+  public User setUpdatedAt(String modificationDateStr) {
+    this.updated_at = modificationDateStr;
     return this;
   }
 }

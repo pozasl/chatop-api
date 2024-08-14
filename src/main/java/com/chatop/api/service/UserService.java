@@ -1,5 +1,7 @@
 package com.chatop.api.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -43,8 +45,10 @@ public class UserService {
             return user;
         }
         BeanUtils.copyProperties(entity, user);
-        user.setCreated(entity.getCreationDate());
-        user.setModified(entity.getModificationDate());
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+        user.setCreatedAt(df.format(entity.getCreationDate()));
+        user.setUpdatedAt(df.format(entity.getModificationDate()));
         return user;
     }
     
