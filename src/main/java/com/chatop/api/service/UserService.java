@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.chatop.api.exception.ResourceNotFoundException;
 import com.chatop.api.model.UserEntity;
 import com.chatop.api.repository.UserRepository;
 
@@ -18,8 +19,10 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
-    public Optional<UserEntity> getUserById(int id) {
-        return this.userRepository.findById(id);
+    public UserEntity getUserById(int id) throws Exception {
+        Optional<UserEntity> user = this.userRepository.findById(id);
+        if (user.isEmpty()) throw new ResourceNotFoundException("Unknown user id");
+        return user.get();
     }
 
     public void deleteUser(int id) {
