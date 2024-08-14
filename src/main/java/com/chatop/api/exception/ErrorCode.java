@@ -1,7 +1,7 @@
 package com.chatop.api.exception;
 
 public enum ErrorCode {
-    RESOURCE_NOT_FOUND("ERR-404","Resouce does not exist");
+    RESOURCE_NOT_FOUND("ERR-001","Resouce does not exist");
 
     private String errCode;
     private String errMsg;
