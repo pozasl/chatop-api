@@ -22,8 +22,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable int id) throws Exception {
-        
-        return this.userService.entityToModel(this.userService.getUserById(id));
+        return this.userService.getUserById(id);
     }
 
 }

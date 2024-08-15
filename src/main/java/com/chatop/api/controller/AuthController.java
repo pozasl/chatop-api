@@ -1,16 +1,15 @@
 package com.chatop.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chatop.api.model.AuthInfo;
 import com.chatop.api.model.NewUser;
 import com.chatop.api.model.User;
+import com.chatop.api.model.UserMapper;
 import com.chatop.api.service.AuthService;
 import com.chatop.api.service.UserService;
 
@@ -24,7 +23,7 @@ public class AuthController {
     private AuthService authService;
 
     @Autowired
-    public AuthController(UserService userService, AuthService authService) {
+    public AuthController(UserService userService, AuthService authService, UserMapper userMapper) {
         this.userService = userService;
         this.authService = authService;
     }
@@ -32,12 +31,13 @@ public class AuthController {
     @PostMapping("/register")
     public User register(@Valid @RequestBody NewUser newUser ) throws Exception {
         System.out.println(newUser.toString());
-        return userService.entityToModel(userService.createUser(newUser));
+        return userService.createUser(newUser);
     }
 
     @PostMapping("/login")
-        public User login(@RequestBody AuthInfo authInfo) throws Exception {
-            return authService.authenticate(authInfo);
+    public User login(@Valid @RequestBody AuthInfo authInfo) throws Exception {
+        System.out.println(authInfo.toString());
+        return authService.authenticate(authInfo);
     }
 
     // @GetMapping("/me")
