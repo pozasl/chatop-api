@@ -21,8 +21,11 @@ public class UserEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
+  @Column(unique = true)
   private String email;
+
   private String name;
+
   private String password;
 
   @Column(name = "created_at")
@@ -39,7 +42,7 @@ public class UserEntity {
     this(null, null, null);
   }
 
-  public UserEntity(String email, String name, String password) {
+  public UserEntity(String name, String email, String password) {
     this.id = -1;
     this.name = name;
     this.email = email;
