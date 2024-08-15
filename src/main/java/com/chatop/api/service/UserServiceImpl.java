@@ -53,10 +53,11 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
+
     public UserEntity createUser(NewUser newUser) throws Exception {
-        UserEntity entity = new UserEntity();
-        BeanUtils.copyProperties(newUser, entity);
+        UserEntity entity = new UserEntity(newUser.getName(), newUser.getEmail(), newUser.getPassword());
         // TODO: Hash Password
+        System.out.println(entity.toString());
         return this.userRepository.save(entity);
     }
     

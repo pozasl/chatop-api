@@ -35,6 +35,17 @@ public class UserEntity {
   @Temporal(TemporalType.TIMESTAMP)
   private Date modificationDate;
 
+  protected UserEntity() {
+    this(null, null, null);
+  }
+
+  public UserEntity(String email, String name, String password) {
+    this.id = -1;
+    this.name = name;
+    this.email = email;
+    this.password = password;
+  }
+
   public int getId() {
     return this.id;
   }
@@ -87,6 +98,12 @@ public class UserEntity {
   public UserEntity setModificationDate(Date modificationDate) {
     this.modificationDate = modificationDate;
     return this;
+  }
+
+  @Override
+  public String toString() {
+    return "UserEntity{" + "id=" + id + ", name='" + name + '\'' + ", email='" + email + '\'' + ", password='"
+      + password + '\'' + '}';
   }
 
 }
