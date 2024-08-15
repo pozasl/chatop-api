@@ -13,8 +13,12 @@ import com.chatop.api.service.UserService;
 @RequestMapping("/api/user")
 public class UserController {
 
-    @Autowired
     private UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable int id) throws Exception {

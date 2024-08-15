@@ -18,8 +18,12 @@ import com.chatop.api.repository.UserRepository;
 @Service
 public class UserServiceImpl implements UserService{
 
-    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public Iterable<UserEntity> getUsers() {
         return this.userRepository.findAll();
