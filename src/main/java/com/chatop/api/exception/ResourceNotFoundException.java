@@ -6,14 +6,14 @@ public class ResourceNotFoundException extends RuntimeException{
     private final String errorCode;
 
     public ResourceNotFoundException(ErrorCode code) {
-        super(code.getErrorMsg());
-        errorMsg = code.getErrorMsg();
+        super(code.getErrMsg());
+        errorMsg = code.getErrMsg();
         errorCode = code.getErrCode();
     }
 
     public ResourceNotFoundException(String message) {
         super(message);
-        errorMsg = ErrorCode.RESOURCE_NOT_FOUND.getErrorMsg();
+        errorMsg = ErrorCode.RESOURCE_NOT_FOUND.getErrMsg();
         errorCode = ErrorCode.RESOURCE_NOT_FOUND.getErrCode();
     }
 
