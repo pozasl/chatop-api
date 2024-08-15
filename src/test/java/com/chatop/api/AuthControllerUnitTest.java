@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.chatop.api.controller.AuthController;
+import com.chatop.api.service.AuthService;
 import com.chatop.api.service.UserService;
 
 @WebMvcTest(controllers = AuthController.class)
@@ -21,6 +22,9 @@ public class AuthControllerUnitTest {
 
   @MockBean
   private UserService userService;
+
+  @MockBean
+  private AuthService authService;
 
   @Test
   public void testRegister() throws Exception {
