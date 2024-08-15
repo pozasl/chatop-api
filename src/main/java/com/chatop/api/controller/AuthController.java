@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chatop.api.model.AuthInfo;
 import com.chatop.api.model.NewUser;
 import com.chatop.api.model.User;
-import com.chatop.api.model.UserMapper;
 import com.chatop.api.service.AuthService;
 import com.chatop.api.service.UserService;
 
@@ -23,7 +22,7 @@ public class AuthController {
     private AuthService authService;
 
     @Autowired
-    public AuthController(UserService userService, AuthService authService, UserMapper userMapper) {
+    public AuthController(UserService userService, AuthService authService) {
         this.userService = userService;
         this.authService = authService;
     }
