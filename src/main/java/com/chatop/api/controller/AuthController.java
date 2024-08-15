@@ -19,7 +19,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public User registerUser(@ModelAttribute NewUser newUser ) throws Exception {
-        return userService.entityToModel(userService.create(newUser));
+        return userService.entityToModel(userService.createUser(newUser));
     }
     
 }
