@@ -9,10 +9,10 @@ public class NewUser {
   @NotBlank(message = "Name is mandatory")
   private String name;
 
-  @Email(message = "Email is mandatory")
+  @Email(message = "Invalid email")
   private String email;
 
-  @Size(min = 6, message = "Password must be at least 6 character long")
+  @Size(min = 6, message = "Password must be at least 6 characters long")
   private String password;
 
   NewUser (String name, String email, String password) {
