@@ -15,10 +15,15 @@ public class AuthInfo {
   }
 
   public String getEmail() {
-    return this.email;
+    return email;
   }
 
   public String getPassword() {
-    return this.password;
+    return password;
+  }
+
+  @Override
+  public String toString() {
+    return "AuthInfo{ email='" + email + "', password='" + password + "' }";
   }
 }
