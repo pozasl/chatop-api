@@ -1,7 +1,8 @@
 package com.chatop.api.exception;
 
 public enum ErrorCode {
-    RESOURCE_NOT_FOUND("ERR-001","Resouce does not exist");
+    RESOURCE_NOT_FOUND("ERR-001","Resouce does not exist"),
+    INVALID_ARGUMENT("ERR-002","Invalid argment");
 
     private String errCode;
     private String errMsg;
@@ -15,7 +16,7 @@ public enum ErrorCode {
         return errCode;
     }
 
-    public String getErrorMsg() {
+    public String getErrMsg() {
         return errMsg;
     }
     

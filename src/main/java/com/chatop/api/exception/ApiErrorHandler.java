@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,7 +37,7 @@ public class ApiErrorHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Error> notFound(final NoHandlerFoundException ex) {
-        Error error = new Error(ErrorCode.RESOURCE_NOT_FOUND.getErrorMsg());
+        Error error = new Error(ErrorCode.RESOURCE_NOT_FOUND.getErrMsg());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
@@ -45,6 +46,15 @@ public class ApiErrorHandler {
     ResponseEntity<Error> handleResourceNotFoundException(HttpServletRequest request, Exception ex, Locale local) {
         Error error = new Error(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    // 400: Bad equest
+    @ExceptionHandler({ MethodArgumentNotValidException.class })
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Error> handleMethodArgumentNotValidException(final MethodArgumentNotValidException ex) {
+        Error error = new Error(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 }
