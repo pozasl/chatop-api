@@ -4,8 +4,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class AuthInfo {
+  @NotBlank(message = "Email address is mandatory")
   @Email(message = "Not an email address")
   private String email;
+  
   @NotBlank(message = "Password is mandatory")
   private String password;
 

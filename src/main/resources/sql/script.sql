@@ -45,4 +45,5 @@ ALTER TABLE `rentals` ADD FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`);
 ALTER TABLE `messages` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 ALTER TABLE `messages` ADD FOREIGN KEY (`rental_id`) REFERENCES `rentals` (`id`);
 
-INSERT INTO users (email, name, password, created_at, updated_at) VALUES ("bob@test.com", "bob", "pass", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+-- For testing purpose bob@test.com:pass
+INSERT INTO users (email, name, password, created_at, updated_at) VALUES ("bob@test.com", "bob", "$2a$10$hNuomN5GZwJxdTQuR5N46.jJH2xfp9wKN79VlY7EpnimcRhO2Qz0m", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
