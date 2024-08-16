@@ -12,19 +12,31 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.chatop.api.service.CustomUserDetailsService;
+import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 
     private UserDetailsService userDetailsService;
+    private final RsaKeyProperties rsaKeys;
 
     @Autowired
-    public SecurityConfiguration(CustomUserDetailsService userDetailsService) {
+    public SecurityConfiguration(CustomUserDetailsService userDetailsService, RsaKeyProperties rsaKeys) {
         this.userDetailsService = userDetailsService;
+        this.rsaKeys = rsaKeys;
     }
 
     @Bean
@@ -33,10 +45,11 @@ public class SecurityConfiguration {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests( auth -> {
-                auth.requestMatchers("/api/auth/**").anonymous();
+                auth.requestMatchers("/api/auth/**").permitAll();
                 auth.anyRequest().authenticated();
             })
-            .httpBasic(Customizer.withDefaults()) // TODO: replace with frontend login
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+            //.httpBasic(Customizer.withDefaults()) // TODO: replace with frontend login
             .build();
     }
 
@@ -60,5 +73,19 @@ public class SecurityConfiguration {
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
         return authenticationManagerBuilder.build();
     }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
+    }
+
+    @Bean JwtEncoder jwtEncoder() {
+        JWK jwKeys = new RSAKey.Builder(rsaKeys.publicKey())
+            .privateKey(rsaKeys.privateKey())
+            .build();
+        JWKSource<SecurityContext> jwKeysSrc = new ImmutableJWKSet<>(new JWKSet(jwKeys));
+        return new NimbusJwtEncoder(jwKeysSrc);
+    }
+    
 
 }
