@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../..:/workspaces:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
+    network_mode: service:mysql-server
+
+  mysql-server:
+    image: mysql:lts
+    container_name: mysql-server
+    environment:
+      - MYSQL_ROOT_PASSWORD=r00t
+      - MYSQL_ROOT_HOST=172.*.*.*
+      - MYSQL_DATABASE=chatop
+      - MYSQL_USER=chatop
+      - MYSQL_PASSWORD=Ch4T0p
+    volumes:
+      - ../src/main/resources/sql/script.sql:/docker-entrypoint-initdb.d/script.sql
+      - mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+volumes:
+  mysql-data:
