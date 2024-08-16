@@ -2,6 +2,7 @@ package com.chatop.api.service;
 
 
 import java.util.Optional;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,6 +40,13 @@ public class UserServiceImpl implements UserService{
     public User createUser(NewUser newUser) throws Exception {
         UserEntity entity = new UserEntity(newUser.getName(), newUser.getEmail(), encoder.encode(newUser.getPassword()));
         return userMapper.entityToModel(this.userRepository.save(entity));
+    }
+
+    @Override
+    public User getUserByEmail(String email) throws Exception {
+        UserEntity user = this.userRepository.findByEmail(email);
+        if (Objects.isNull(user)) throw new ResourceNotFoundException("Unknown user email");
+        return userMapper.entityToModel(user);
     }
     
 }
