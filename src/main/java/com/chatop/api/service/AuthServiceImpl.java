@@ -1,6 +1,9 @@
 package com.chatop.api.service;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.chatop.api.model.AuthInfo;
@@ -24,6 +27,8 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public User authenticate(AuthInfo auth) throws Exception {
         UserEntity user = userRepository.findByEmail(auth.getEmail());
+        if (Objects.isNull(user))
+            throw new UsernameNotFoundException("Unknow email adress");
         System.out.println(auth.toString());
         System.out.println(user.toString());
         return userMapper.entityToModel(user);

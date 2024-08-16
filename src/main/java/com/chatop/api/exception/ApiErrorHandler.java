@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -55,6 +56,13 @@ public class ApiErrorHandler {
     public ResponseEntity<Error> handleMethodArgumentNotValidException(final MethodArgumentNotValidException ex) {
         Error error = new Error(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    // 404: No resource found
+    @ExceptionHandler(UsernameNotFoundException.class)
+    ResponseEntity<Error> handleUsernameNotFoundException(HttpServletRequest request, Exception ex, Locale local) {
+        Error error = new Error(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
 }
