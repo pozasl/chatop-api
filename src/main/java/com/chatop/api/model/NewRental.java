@@ -1,8 +1,10 @@
 package com.chatop.api.model;
 
 import org.hibernate.validator.constraints.URL;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
@@ -21,6 +23,10 @@ public class NewRental {
 
     @NotNull(message = "Missing description parameter")
     private String description;
+
+    @NotEmpty
+    private MultipartFile file;
+
 
     public String getName() {
         return name;
@@ -64,6 +70,15 @@ public class NewRental {
 
     public NewRental setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public NewRental setFile(MultipartFile file) {
+        this.file = file;
         return this;
     }
     

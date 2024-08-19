@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chatop.api.model.NewRental;
 import com.chatop.api.model.Rental;
 import com.chatop.api.model.ResponseMessageInfo;
+import com.chatop.api.service.FileStorageService;
+import com.chatop.api.service.FileStorageServiceImpl;
 import com.chatop.api.service.RentalService;
 import com.chatop.api.service.RentalServiceImpl;
 
@@ -24,10 +27,12 @@ import jakarta.validation.Valid;
 public class RentalController {
 
     private RentalService rentalService;
+    private FileStorageService fileStorageService;
 
     @Autowired
-    public RentalController(RentalServiceImpl rentalService) {
+    public RentalController(RentalServiceImpl rentalService, FileStorageServiceImpl fileStorageService) {
         this.rentalService = rentalService;
+        this.fileStorageService = fileStorageService;
     }
 
     @GetMapping("/rentals")
@@ -36,7 +41,9 @@ public class RentalController {
     }
 
     @PostMapping("/rentals")
-    public ResponseMessageInfo create(@Valid @RequestBody NewRental newRental) throws Exception {
+    public ResponseMessageInfo create(@Valid @RequestParam NewRental newRental) throws Exception {
+        String imgSrc = fileStorageService.saveFileAs(newRental.getFile());
+        newRental.setPicture(imgSrc);
         rentalService.createRental(newRental);
         return new ResponseMessageInfo("Rental created !");
     }
