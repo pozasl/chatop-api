@@ -1,16 +1,13 @@
 package com.chatop.api.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "rentals")
-public class RentalEntity extends GenericEntity<RentalEntity>{
+public class RentalEntity extends GenericEntity<RentalEntity> {
 
     public RentalEntity() {
         this(null, 0, 0, null, null);
@@ -19,9 +16,6 @@ public class RentalEntity extends GenericEntity<RentalEntity>{
     public RentalEntity(String name, int surface, int price, String picture, String desciption) {
         super(RentalEntity.class);
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private String name;
 
@@ -80,6 +74,18 @@ public class RentalEntity extends GenericEntity<RentalEntity>{
     public RentalEntity setDescription(String description) {
         this.description = description;
         return this;
+    }
+
+    @Override
+    public String toString() {
+      return "RentalEntity{" +
+        "id=" + id +
+        ",\n\tname='" + name + '\'' +
+        ",\n\tsurface=" + surface +
+        ",\n\tprice=" + price +
+        ",\n\tpicture='" + picture + '\'' +
+        ",\n\tdescription='" + description + '\'' +
+        '}';
     }
 
 }
