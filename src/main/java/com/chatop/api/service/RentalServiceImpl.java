@@ -58,7 +58,7 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public void saveRentalById(int id, Rental rental, String userEmail)  throws Exception {
+    public void saveRentalById(int id, NewRental rental, String userEmail)  throws Exception {
         RentalEntity entity = this.foundEntityById(id);
         if (entity.getUser() != userRepository.findByEmail(userEmail))
             throw new AccessDeniedException("Not the rental owner");

@@ -61,8 +61,8 @@ public class RentalController {
     }
 
     @PutMapping("/rentals/{id}")
-    public ResponseMessageInfo updateRentalById(@PathVariable int id, @Valid @RequestBody Rental rental, Authentication auth) throws Exception {
-        rentalService.saveRentalById(id, rental, auth.getName());
-        return new ResponseMessageInfo("Rental created !");
+    public ResponseMessageInfo updateRentalById(@PathVariable int id, @Valid @ModelAttribute NewRental newRental, Authentication auth) throws Exception {
+        rentalService.saveRentalById(id, newRental, auth.getName());
+        return new ResponseMessageInfo("Rental updated !");
     }
 }

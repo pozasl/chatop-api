@@ -10,5 +10,5 @@ public interface RentalService {
     List<Rental> getRentalsByUserId() throws Exception;
     Rental createRental(NewRental newRental, String userEmail, String imgSrc) throws Exception;
     Rental getRentalById(int id)  throws Exception;
-    void saveRentalById(int id, Rental Rental, String userEmail) throws Exception;
+    void saveRentalById(int id, NewRental Rental, String userEmail) throws Exception;
 }
