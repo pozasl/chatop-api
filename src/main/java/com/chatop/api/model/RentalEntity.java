@@ -76,6 +76,15 @@ public class RentalEntity extends GenericEntity<RentalEntity> {
         return this;
     }
 
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public RentalEntity setUser(UserEntity user) {
+        this.user = user;
+        return this;
+    }
+
     @Override
     public String toString() {
       return "RentalEntity{" +

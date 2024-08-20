@@ -3,13 +3,14 @@ package com.chatop.api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chatop.api.model.NewRental;
@@ -40,11 +41,17 @@ public class RentalController {
         return rentalService.getAllRentals();
     }
 
-    @PostMapping("/rentals")
-    public ResponseMessageInfo create(@Valid @RequestParam NewRental newRental) throws Exception {
-        String imgSrc = fileStorageService.saveFileAs(newRental.getFile());
-        newRental.setPicture(imgSrc);
-        rentalService.createRental(newRental);
+    @PostMapping(path = "/rentals")
+    public ResponseMessageInfo create(@Valid @ModelAttribute NewRental newRental, Authentication auth) throws Exception {
+        String imgSrc = fileStorageService.saveFile(newRental.getPicture());
+        try {
+            rentalService.createRental(newRental, auth.getName(), imgSrc);
+        } catch(Exception e)
+        {
+            fileStorageService.deleteFile(imgSrc);
+            throw e;
+        }
+        
         return new ResponseMessageInfo("Rental created !");
     }
 
@@ -54,8 +61,8 @@ public class RentalController {
     }
 
     @PutMapping("/rentals/{id}")
-    public ResponseMessageInfo updateRentalById(@PathVariable int id, @Valid @RequestBody Rental rental) throws Exception {
-        rentalService.saveRentalById(id, rental);
+    public ResponseMessageInfo updateRentalById(@PathVariable int id, @Valid @RequestBody Rental rental, Authentication auth) throws Exception {
+        rentalService.saveRentalById(id, rental, auth.getName());
         return new ResponseMessageInfo("Rental created !");
     }
 }
