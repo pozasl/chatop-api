@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -61,6 +62,13 @@ public class ApiErrorHandler {
     // 404: No resource found
     @ExceptionHandler(UsernameNotFoundException.class)
     ResponseEntity<Error> handleUsernameNotFoundException(HttpServletRequest request, Exception ex, Locale local) {
+        Error error = new Error(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    // 401: Acces denied
+    @ExceptionHandler(AccessDeniedException.class)
+    ResponseEntity<Error> handleAccessDeniedException(HttpServletRequest request, Exception ex, Locale local) {
         Error error = new Error(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
