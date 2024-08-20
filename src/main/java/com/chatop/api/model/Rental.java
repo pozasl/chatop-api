@@ -70,7 +70,7 @@ public class Rental extends GenericModel<Rental>{
         return this;
     }
 
-    public String setDescription() {
+    public String getDescription() {
         return description;
     }
 

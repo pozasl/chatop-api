@@ -58,7 +58,7 @@ public class NewRental {
         return this;
     }
 
-    public String setDescription() {
+    public String getDescription() {
         return description;
     }
 
