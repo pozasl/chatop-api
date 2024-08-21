@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Service;
 
 import com.chatop.api.exception.ResourceNotFoundException;
 import com.chatop.api.model.Message;
@@ -14,6 +15,7 @@ import com.chatop.api.repository.MessageRepository;
 import com.chatop.api.repository.RentalRepository;
 import com.chatop.api.repository.UserRepository;
 
+@Service
 public class MessageServiceImpl implements MessageService{
 
     private MessageRepository messageRepository;
