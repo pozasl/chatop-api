@@ -61,7 +61,7 @@ public class Rental extends GenericModel<Rental>{
         return this;
     }
 
-    public String getPricture() {
+    public String getPicture() {
         return picture;
     }
 

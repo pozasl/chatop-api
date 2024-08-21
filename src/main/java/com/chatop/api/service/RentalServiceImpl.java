@@ -35,7 +35,11 @@ public class RentalServiceImpl implements RentalService {
     public List<Rental> getAllRentals() {
         List<Rental> rentals = new ArrayList<>();
         rentalRepository.findAll().forEach(
-            e ->  rentals.add(entityToModelMapper.entityToModel(e, new Rental()))
+            e ->  {
+                Rental rental = entityToModelMapper.entityToModel(e, new Rental());
+                rental.setOwnerId(e.getUser().getId());
+                rentals.add(rental);
+            }
         );
         return rentals;
     }
