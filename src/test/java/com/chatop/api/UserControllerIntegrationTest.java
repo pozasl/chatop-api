@@ -22,7 +22,7 @@ public class UserControllerIntegrationTest {
         mockMvc.perform(get("/api/user/1"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id", is(1)))
-        .andExpect(jsonPath("$.name", is("Bob")))
+        .andExpect(jsonPath("$.name", is("bob")))
         .andExpect(jsonPath("$.email", is("bob@test.com")))
         .andExpect(jsonPath("$.created_at", is("14/08/2024")))
         .andExpect(jsonPath("$.updated_at", is("14/08/2024")));

@@ -31,4 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+## private keys
 src/main/resources/certs/*.pem
+## upload testing folder
+upload/

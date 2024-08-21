@@ -12,6 +12,8 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
+import com.chatop.api.model.CustomUserDetails;
+
 @Service
 public class JwtServiceImpl implements JwtService{
 
@@ -24,20 +26,22 @@ public class JwtServiceImpl implements JwtService{
 
     @Override
     public String generateToken(Authentication auth) {
+        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
         String scope = auth.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(" "));
-            return createToken(auth.getName(), scope, this.encoder);
+            return createToken(userDetails, scope, this.encoder);
     }
 
-    public static String createToken(String email, String scope, JwtEncoder encoder) {
+    public static String createToken(CustomUserDetails userDetails, String scope, JwtEncoder encoder) {
         Instant now = Instant.now();
         JwtClaimsSet claims = JwtClaimsSet.builder()
             .issuer("self")
             .issuedAt(now)
             .expiresAt(now.plus(1,ChronoUnit.HOURS))
-            .subject(email)
+            .subject(userDetails.getEmail())
             .claim("scope", scope)
+            .claim("userId", userDetails.getId())
             .build();
         return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
