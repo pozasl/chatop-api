@@ -40,7 +40,7 @@ public class RentalController {
         return rentalService.getAllRentals();
     }
 
-    @PostMapping(path = "/rentals")
+    @PostMapping("/rentals")
     public ResponseMessageInfo create(@Valid @ModelAttribute NewRental newRental, Authentication auth) throws Exception {
         String imgSrc = fileStorageService.saveFile(newRental.getPicture());
         try {
