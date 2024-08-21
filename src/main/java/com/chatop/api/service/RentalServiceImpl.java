@@ -64,7 +64,7 @@ public class RentalServiceImpl implements RentalService {
     @Override
     public void saveRentalById(int id, NewRental rental, String userEmail)  throws Exception {
         RentalEntity entity = this.foundEntityById(id);
-        if (entity.getUser() != userRepository.findByEmail(userEmail))
+        if (entity.getUser().getId() != userRepository.findByEmail(userEmail).getId())
             throw new AccessDeniedException("Not the rental owner");
         BeanUtils.copyProperties(rental, entity);
         rentalRepository.save(entity);
