@@ -65,12 +65,6 @@ public class RentalServiceImpl implements RentalService {
         BeanUtils.copyProperties(rental, entity);
         rentalRepository.save(entity);
     }
-
-    @Override
-    public List<Rental> getRentalsByUserId() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRentalsByUserId'");
-    }
     
     private RentalEntity foundEntityById(int id) throws Exception{
         Optional<RentalEntity> foundRental = rentalRepository.findById(id);
