@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.chatop.api.model.NewRental;
 import com.chatop.api.model.Rental;
+import com.chatop.api.model.RentalsCollection;
 import com.chatop.api.model.ResponseMessageInfo;
 import com.chatop.api.service.FileStorageService;
 import com.chatop.api.service.FileStorageServiceImpl;
@@ -36,8 +37,9 @@ public class RentalController {
     }
 
     @GetMapping("/rentals")
-    public List<Rental> getRentals() throws Exception {
-        return rentalService.getAllRentals();
+    public RentalsCollection getRentals() throws Exception {
+        List<Rental>rentals = rentalService.getAllRentals();
+        return new RentalsCollection(rentals);
     }
 
     @PostMapping("/rentals")
