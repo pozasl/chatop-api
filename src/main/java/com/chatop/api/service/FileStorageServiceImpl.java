@@ -21,13 +21,14 @@ import com.chatop.api.exception.FileStorageException;
 public class FileStorageServiceImpl implements FileStorageService {
 
     private final Path baseLocation;
+    private final String uploadFolder;
 
     @Autowired
     public FileStorageServiceImpl(FileStorageConfiguration properties) {
         if (properties.getLocation().trim().length() == 0) {
             throw new FileStorageException("File upload location can not be Empty.");
         }
-
+        this.uploadFolder = properties.getLocation();
         this.baseLocation = Paths.get(properties.getLocation());
     }
 
@@ -45,7 +46,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile,
                         StandardCopyOption.REPLACE_EXISTING);
-                return fileName;
+                return uploadFolder + "/" + fileName;
             }
         } catch (IOException e) {
             throw new FileStorageException(e.getMessage());
