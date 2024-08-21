@@ -29,6 +29,7 @@ public class ApiErrorHandler {
 
     // 500
     @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     ResponseEntity<Error> handleException(HttpServletRequest request, Exception ex, Locale local) {
         Error error = new Error(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -45,6 +46,7 @@ public class ApiErrorHandler {
 
     // 404: No resource found
     @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     ResponseEntity<Error> handleResourceNotFoundException(HttpServletRequest request, Exception ex, Locale local) {
         Error error = new Error(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
@@ -53,20 +55,22 @@ public class ApiErrorHandler {
     // 400: Bad equest
     @ExceptionHandler({ MethodArgumentNotValidException.class })
     @ResponseBody
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Error> handleMethodArgumentNotValidException(final MethodArgumentNotValidException ex) {
         Error error = new Error(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    // 404: No resource found
+    // 401: Unauthorized
     @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     ResponseEntity<Error> handleUsernameNotFoundException(HttpServletRequest request, Exception ex, Locale local) {
         Error error = new Error(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
     // 401: Acces denied
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AccessDeniedException.class)
     ResponseEntity<Error> handleAccessDeniedException(HttpServletRequest request, Exception ex, Locale local) {
         Error error = new Error(ex.getMessage());
