@@ -23,3 +23,8 @@ curl -v -X PUT localhost:8080/api/rentals/8 \
   -F "price=125" \
   -F "description=BlaBla bla 3" \
   -H "Authorization: Bearer $TOKEN"
+# test /api/messages POST
+curl -v localhost:8080/api/messages \
+  -d '{"message": "Hello worl!", "user_id": 3, "rental_id":8}' \
+  -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer $TOKEN"

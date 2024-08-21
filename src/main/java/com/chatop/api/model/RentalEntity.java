@@ -13,8 +13,13 @@ public class RentalEntity extends GenericEntity<RentalEntity> {
         this(null, 0, 0, null, null);
     }
 
-    public RentalEntity(String name, int surface, int price, String picture, String desciption) {
+    public RentalEntity(String name, int surface, int price, String picture, String description) {
         super(RentalEntity.class);
+        this.name = name;
+        this.surface = surface;
+        this.price = price;
+        this.picture = picture;
+        this.description = description;
     }
 
     private String name;
