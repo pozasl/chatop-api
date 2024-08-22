@@ -78,7 +78,7 @@ mkdir upload
 
 Then run with the command:
 ```Bash
-java -jar api-0.0.2
+java -jar -Dspring.profiles.active=prod api-0.0.2.jar
 ```
 The backend server will be listening on port 8080
 
@@ -106,5 +106,4 @@ In the frontend, change the proxy.config.json file like this if it's running on 
 }
 
 ```
-
 Otherwise replace "localhost" by the hostname, servicename or ip running the backend server.
