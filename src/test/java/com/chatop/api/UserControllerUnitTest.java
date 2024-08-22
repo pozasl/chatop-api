@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.chatop.api.controller.UserController;
-import com.chatop.api.service.UserService;
+import com.chatop.api.service.UserServiceImpl;
 
 @WebMvcTest(controllers = UserController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -20,7 +20,7 @@ public class UserControllerUnitTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Test
     public void testGetUserById() throws Exception {

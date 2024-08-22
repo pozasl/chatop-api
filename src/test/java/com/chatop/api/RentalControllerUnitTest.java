@@ -1,36 +1,47 @@
 package com.chatop.api;
 
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.core.Authentication;
-import org.springframework.test.web.servlet.MockMvc;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.InputStream;
 import java.security.Principal;
 
-@SpringBootTest
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.Authentication;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.chatop.api.controller.RentalController;
+import com.chatop.api.service.FileStorageServiceImpl;
+import com.chatop.api.service.RentalServiceImpl;
+
+@WebMvcTest(controllers = RentalController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class RentalControllerIntegrationTest {
+public class RentalControllerUnitTest {
 
-    @Autowired
-    MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
-    @Test
-    void getRentals() throws Exception {
-        mockMvc.perform(get("/api/rentals")).andExpect(status().isOk());
-    }
+  @MockBean
+  private RentalServiceImpl rentalService;
 
-    @Test
+  @MockBean
+  private FileStorageServiceImpl fileStorageService;
+
+  @Test
+  public void getRentals() throws Exception {
+    mockMvc.perform(get("/api/rentals")).andExpect(status().isOk());
+  }
+
+  @Test
     void createRental() throws Exception {
         Principal mockPrincipal = Mockito.mock(Authentication.class);
         Mockito.when(mockPrincipal.getName()).thenReturn("bob@test.com");
@@ -52,7 +63,7 @@ public class RentalControllerIntegrationTest {
             .principal(mockPrincipal)
         ).andExpect(status().isOk());
     }
-
+    
     @Test
     void getRentalById() throws Exception {
         mockMvc.perform(get("/api/rentals/8")).andExpect(status().isOk());
@@ -72,5 +83,5 @@ public class RentalControllerIntegrationTest {
             .principal(mockPrincipal)
         ).andExpect(status().isOk());
     }
-
+    
 }
