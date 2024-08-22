@@ -24,8 +24,8 @@ public class UserControllerIntegrationTest {
         .andExpect(jsonPath("$.id", is(1)))
         .andExpect(jsonPath("$.name", is("bob")))
         .andExpect(jsonPath("$.email", is("bob@test.com")))
-        .andExpect(jsonPath("$.created_at", is("14/08/2024")))
-        .andExpect(jsonPath("$.updated_at", is("14/08/2024")));
+        .andExpect(jsonPath("$.created_at", is("2024/08/14")))
+        .andExpect(jsonPath("$.updated_at", is("2024/08/14")));
     }
 
     @Test
