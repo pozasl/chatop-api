@@ -1,15 +1,23 @@
 [![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)
-[![forthebadge](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNzcuMjE4NzgwNTE3NTc4MTIiIGhlaWdodD0iMzUiIHZpZXdCb3g9IjAgMCAxNzcuMjE4NzgwNTE3NTc4MTIgMzUiPjxyZWN0IHdpZHRoPSI1MC42NTYyNTc2MjkzOTQ1MyIgaGVpZ2h0PSIzNSIgZmlsbD0iIzdlZDMyMSIvPjxyZWN0IHg9IjUwLjY1NjI1NzYyOTM5NDUzIiB3aWR0aD0iMTI2LjU2MjUyMjg4ODE4MzYiIGhlaWdodD0iMzUiIGZpbGw9IiM0MTc1MDUiLz48dGV4dCB4PSIyNS4zMjgxMjg4MTQ2OTcyNjYiIHk9IjIxLjUiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtZmFtaWx5PSInUm9ib3RvJywgc2Fucy1zZXJpZiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPlVTRTwvdGV4dD48dGV4dCB4PSIxMTMuOTM3NTE5MDczNDg2MzMiIHk9IjIxLjUiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtZmFtaWx5PSInTW9udHNlcnJhdCcsIHNhbnMtc2VyaWYiIGZpbGw9IiNGRkZGRkYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI5MDAiIGxldHRlci1zcGFjaW5nPSIyIj5TUFJJTkctQk9PVDwvdGV4dD48L3N2Zz4=)](https://forthebadge.com)
-[![forthebadge](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMzEuMjUwMDExNDQ0MDkxOCIgaGVpZ2h0PSIzNSIgdmlld0JveD0iMCAwIDEzMS4yNTAwMTE0NDQwOTE4IDM1Ij48cmVjdCB3aWR0aD0iNTguNjI1MDAzODE0Njk3MjY2IiBoZWlnaHQ9IjM1IiBmaWxsPSIjM2U2ZTkzIi8+PHJlY3QgeD0iNTguNjI1MDAzODE0Njk3MjY2IiB3aWR0aD0iNzIuNjI1MDA3NjI5Mzk0NTMiIGhlaWdodD0iMzUiIGZpbGw9IiNmMjkyMjEiLz48dGV4dCB4PSIyOS4zMTI1MDE5MDczNDg2MzMiIHk9IjIxLjUiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtZmFtaWx5PSInUm9ib3RvJywgc2Fucy1zZXJpZiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPldJVEg8L3RleHQ+PHRleHQgeD0iOTQuOTM3NTA3NjI5Mzk0NTMiIHk9IjIxLjUiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtZmFtaWx5PSInTW9udHNlcnJhdCcsIHNhbnMtc2VyaWYiIGZpbGw9IiNGRkZGRkYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI5MDAiIGxldHRlci1zcGFjaW5nPSIyIj5NWVNRTDwvdGV4dD48L3N2Zz4=)](https://forthebadge.com)
 
 # Chatop application backend
 
-This the Chatop Rental Management System's backend, its REST API manages the autentification and exposes the user's rentals and messages.
+This is the Châtop Rental Management System's backend, its REST API manages the USER authentication and exposes the user's rentals and messages.
 
 ## Technologies
 - Java 17
 - Spring-Boot 3.3.2
 - Mysql 8.4.2
+
+## Authors
+
+@pozasl
+
+
+## Licensing
+
+&copy; Châtop
+
 
 ## API Documentation
 - TODO: OpenAPI3 documentation link HERE
@@ -47,15 +55,56 @@ The Jar file wil be produced in the "target" fodler.
 ### Installation
 
 #### MySQL
-- Install MySQL server and create a dedicated user whith all right to a dedicated DB for the application.
+- Install MySQL server and create a dedicated user whith all right to a dedicated database for the application.
 
 #### Launch the REST API Server
-Download the last release JAR:
-TODO: Last released Jar link HERE
+Download the last released JAR:
+[api-0.0.2](https://github.com/pozasl/chatop-api/releases/download/0.0.2/api-0.0.2.jar)
+
+Set the database connection parameters as environment variables according to the mysql server settings and created user credentials
+
+```Bash
+MYSQL_SERVER_HOST="mysql_server_hostname_or_ip_here"
+MYSQL_SERVER_PORT="mysql_server_port_here"
+MYSQL_DATABASE="database_name_here"
+MYSQL_USER="database_user_here"
+MYSQL_PASSWORD="database_login_here"
+```
+
+Create an upload folder where the rental picture will be stored
+```Bash
+mkdir upload
+```
 
 Then run with the command:
 ```Bash
-java -jar  api-0.0.1-SNAPSHOT.jar
+java -jar api-0.0.2
+```
+The backend server will be listening on port 8080
+
+The API's documentation is available at http://localhost:8080/swagger-ui/index.html
+The API description file is available at http://localhost:8080/v3/api-docs
+
+## Front-end proxy configuration
+
+In the frontend, change the proxy.config.json file like this if it's running on the same host :
+
+```json
+{
+    "/api/*": {
+        "target": "http://localhost:8080",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug"
+    },
+    "/upload/*": {
+        "target": "http://localhost:8080",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug"
+    }
+}
+
 ```
 
-
+Otherwise replace "localhost" by the hostname, servicename or ip running the backend server.
