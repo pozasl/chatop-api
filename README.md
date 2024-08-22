@@ -53,11 +53,28 @@ The Jar file wil be produced in the "target" fodler.
 #### MySQL
 Install MySQL server and create a dedicated user whith all right to a dedicated database for the application
 
+```Bash
+mysql -u root -p
+```
+
 ```sql
 CREATE DATABASE `chatopdb`;
 CREATE USER `chatopuser`@`%` IDENTIFIED BY "A_v3Ry_StR0nG_p4Ss";
 GRANT ALL PRIVILEGES ON `chatopdb`.* TO `chatopuser`@`%`;
 FLUSH PRIVILEGES;
+```
+
+Download the [sql script](https://raw.githubusercontent.com/pozasl/chatop-api/main/src/main/resources/sql/script.sql)
+
+Then initialize the table in the application database with the application user
+
+```Bash
+mysql -u chatopuser -p
+```
+
+```sql
+USE `chatopdb`;
+source script.sql
 ```
 
 #### Launch the REST API Server
