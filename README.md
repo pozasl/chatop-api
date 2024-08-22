@@ -18,10 +18,6 @@ This is the Châtop Rental Management System's backend, its REST API manages the
 
 &copy; Châtop
 
-
-## API Documentation
-- TODO: OpenAPI3 documentation link HERE
-
 ## Building
 
 A Devcontainer environment is provided with a JDK container and a MySQL 8.4.2 container
@@ -55,11 +51,18 @@ The Jar file wil be produced in the "target" fodler.
 ### Installation
 
 #### MySQL
-- Install MySQL server and create a dedicated user whith all right to a dedicated database for the application.
+Install MySQL server and create a dedicated user whith all right to a dedicated database for the application
+
+```sql
+CREATE DATABASE `chatopdb`;
+CREATE USER `chatopuser`@`%` IDENTIFIED BY "A_v3Ry_StR0nG_p4Ss";
+GRANT ALL PRIVILEGES ON `chatopdb`.* TO `chatopuser`@`%`;
+FLUSH PRIVILEGES;
+```
 
 #### Launch the REST API Server
 Download the last released JAR:
-[api-0.0.2](https://github.com/pozasl/chatop-api/releases/download/0.0.2/api-0.0.2.jar)
+[api-0.0.3](https://github.com/pozasl/chatop-api/releases/download/0.0.3/api-0.0.3.jar)
 
 Set the database connection parameters as environment variables according to the mysql server settings and created user credentials
 
@@ -78,11 +81,16 @@ mkdir upload
 
 Then run with the command:
 ```Bash
-java -jar -Dspring.profiles.active=prod api-0.0.2.jar
+java -jar -Dspring.profiles.active=prod api-0.0.3.jar
 ```
 The backend server will be listening on port 8080
 
-The API's documentation is available at http://localhost:8080/swagger-ui/index.html
+## API documentation
+
+The API is documented on [SwaggerHub](https://app.swaggerhub.com/apis/LOICPOZAS/chatop_open-api_definition/v0.0.2)
+
+When the server is running, The API's documentation is available at http://localhost:8080/swagger-ui/index.html
+
 The API description file is available at http://localhost:8080/v3/api-docs
 
 ## Front-end proxy configuration
