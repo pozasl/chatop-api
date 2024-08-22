@@ -1,5 +1,3 @@
-USE chatop;
-
 CREATE TABLE `users` (
   `id` integer PRIMARY KEY AUTO_INCREMENT,
   `email` varchar(255),
@@ -31,7 +29,6 @@ CREATE TABLE `messages` (
 );
 
 CREATE UNIQUE INDEX `users_index` ON `users` (`email`);
-
 
 ALTER TABLE `rentals` ADD FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`);
 ALTER TABLE `messages` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);

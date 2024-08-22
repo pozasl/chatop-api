@@ -18,7 +18,7 @@ services:
     container_name: mysql-server
     env_file: "default.env"
     volumes:
-      - ../src/main/resources/sql/script.sql:/docker-entrypoint-initdb.d/script.sql
+      - ../src/main/resources/sql/script.sql:/tmp/script.sql
       - mysql-data:/var/lib/mysql
     ports:
       - 3306:3306
