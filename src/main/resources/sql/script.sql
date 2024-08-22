@@ -32,18 +32,7 @@ CREATE TABLE `messages` (
 
 CREATE UNIQUE INDEX `users_index` ON `users` (`email`);
 
--- -----------------------------
--- Frontend dev shouldn't do SQL
--- -----------------------------
--- ALTER TABLE `USERS` ADD FOREIGN KEY (`id`) REFERENCES `RENTALS` (`owner_id`);
-
--- ALTER TABLE `USERS` ADD FOREIGN KEY (`id`) REFERENCES `MESSAGES` (`user_id`);
-
--- ALTER TABLE `RENTALS` ADD FOREIGN KEY (`id`) REFERENCES `MESSAGES` (`rental_id`);
 
 ALTER TABLE `rentals` ADD FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`);
 ALTER TABLE `messages` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 ALTER TABLE `messages` ADD FOREIGN KEY (`rental_id`) REFERENCES `rentals` (`id`);
-
--- For testing purpose bob@test.com:pass
-INSERT INTO users (email, name, password, created_at, updated_at) VALUES ("bob@test.com", "bob", "$2a$10$hNuomN5GZwJxdTQuR5N46.jJH2xfp9wKN79VlY7EpnimcRhO2Qz0m", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
