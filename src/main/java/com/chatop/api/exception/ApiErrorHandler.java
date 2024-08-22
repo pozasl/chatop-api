@@ -88,4 +88,12 @@ public class ApiErrorHandler {
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
+    // 409: Register conflict
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    ResponseEntity<ResponseMessageInfo> UserAlreadyExistsException(HttpServletRequest request, Exception ex, Locale local) {
+        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
 }
