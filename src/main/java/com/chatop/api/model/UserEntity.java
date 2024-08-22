@@ -2,10 +2,11 @@ package com.chatop.api.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", indexes = @Index(name = "users_index", columnList = "email", unique = true))
 public class UserEntity extends GenericEntity<UserEntity> {
 
   public UserEntity() {
