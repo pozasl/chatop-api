@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.chatop.api.controller.AuthController;
 import com.chatop.api.service.JwtServiceImpl;
-import com.chatop.api.service.UserService;
+import com.chatop.api.service.UserServiceImpl;
 
 @WebMvcTest(controllers = AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -24,7 +24,7 @@ public class AuthControllerUnitTest {
   private MockMvc mockMvc;
 
   @MockBean
-  private UserService userService;
+  private UserServiceImpl userService;
 
   @MockBean
   private JwtServiceImpl jwtService;
@@ -45,7 +45,7 @@ public class AuthControllerUnitTest {
 
   @Test
   public void testRegisterShortPassRejection() throws Exception {
-    String jsonStr = "{\"email\": \"alice@test.com\",\"name\":\"alice\",\"password\": \"pass\"}";
+    String jsonStr = "{\"email\": \"jeff@test.com\",\"name\":\"jeff\",\"password\": \"pass\"}";
     mockMvc.perform(
       post("/api/auth/register")
         .contentType(MediaType.APPLICATION_JSON)
@@ -55,7 +55,7 @@ public class AuthControllerUnitTest {
 
   @Test
   public void testRegisterWrongEmailRejection() throws Exception {
-    String jsonStr = "{\"email\": \"alice-test.com\",\"name\":\"alice\",\"password\": \"pass1234\"}";
+    String jsonStr = "{\"email\": \"jeff-test.com\",\"name\":\"jeff\",\"password\": \"pass1234\"}";
     mockMvc.perform(
       post("/api/auth/register")
         .contentType(MediaType.APPLICATION_JSON)
@@ -65,7 +65,7 @@ public class AuthControllerUnitTest {
 
   @Test
   public void testRegisterEmptyNameRejection() throws Exception {
-    String jsonStr = "{\"email\": \"alice@test.com\",\"name\":\"\",\"password\": \"pass1234\"}";
+    String jsonStr = "{\"email\": \"jeff@test.com\",\"name\":\"\",\"password\": \"pass1234\"}";
     mockMvc.perform(
       post("/api/auth/register")
         .contentType(MediaType.APPLICATION_JSON)

@@ -6,10 +6,12 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class Message {
 
     @NotBlank
+    @Size(max = 2000, message = "{validation.name.size.too_long}")
     private String message;
 
     @NotNull
