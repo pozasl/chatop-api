@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
+
+import com.chatop.api.model.ResponseMessageInfo;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -30,8 +33,8 @@ public class ApiErrorHandler {
     // 500
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    ResponseEntity<Error> handleException(HttpServletRequest request, Exception ex, Locale local) {
-        Error error = new Error(ex.getMessage());
+    ResponseEntity<ResponseMessageInfo> handleException(HttpServletRequest request, Exception ex, Locale local) {
+        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -39,16 +42,24 @@ public class ApiErrorHandler {
     @ExceptionHandler({ NoHandlerFoundException.class })
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<Error> notFound(final NoHandlerFoundException ex) {
-        Error error = new Error(ErrorCode.RESOURCE_NOT_FOUND.getErrMsg());
+    public ResponseEntity<ResponseMessageInfo> notFound(final NoHandlerFoundException ex) {
+        ResponseMessageInfo error = new ResponseMessageInfo(ErrorCode.RESOURCE_NOT_FOUND.getErrMsg());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
     // 404: No resource found
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    ResponseEntity<Error> handleResourceNotFoundException(HttpServletRequest request, Exception ex, Locale local) {
-        Error error = new Error(ex.getMessage());
+    ResponseEntity<ResponseMessageInfo> handleResourceNotFoundException(HttpServletRequest request, Exception ex, Locale local) {
+        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    // 404: No static resource found
+    @ExceptionHandler(NoResourceFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    ResponseEntity<ResponseMessageInfo> handleNoResourceFoundException(HttpServletRequest request, Exception ex, Locale local) {
+        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
@@ -56,24 +67,24 @@ public class ApiErrorHandler {
     @ExceptionHandler({ MethodArgumentNotValidException.class })
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Error> handleMethodArgumentNotValidException(final MethodArgumentNotValidException ex) {
-        Error error = new Error(ex.getMessage());
+    public ResponseEntity<ResponseMessageInfo> handleMethodArgumentNotValidException(final MethodArgumentNotValidException ex) {
+        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     // 401: Unauthorized
     @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    ResponseEntity<Error> handleUsernameNotFoundException(HttpServletRequest request, Exception ex, Locale local) {
-        Error error = new Error(ex.getMessage());
+    ResponseEntity<ResponseMessageInfo> handleUsernameNotFoundException(HttpServletRequest request, Exception ex, Locale local) {
+        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
     // 401: Acces denied
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AccessDeniedException.class)
-    ResponseEntity<Error> handleAccessDeniedException(HttpServletRequest request, Exception ex, Locale local) {
-        Error error = new Error(ex.getMessage());
+    ResponseEntity<ResponseMessageInfo> handleAccessDeniedException(HttpServletRequest request, Exception ex, Locale local) {
+        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
