@@ -1,20 +1,19 @@
 package com.chatop.api.exception;
 
-public class ResourceNotFoundException extends RuntimeException{
-    // private static final long serialVersionId = 1L;
+public class UserAlreadyExistsException extends RuntimeException {
     private final String errorMsg;
     private final String errorCode;
 
-    public ResourceNotFoundException(ErrorCode code) {
+    public UserAlreadyExistsException(ErrorCode code) {
         super(code.getErrMsg());
         errorMsg = code.getErrMsg();
         errorCode = code.getErrCode();
     }
 
-    public ResourceNotFoundException(String message) {
+    public UserAlreadyExistsException(String message) {
         super(message);
-        errorMsg = ErrorCode.RESOURCE_NOT_FOUND.getErrMsg();
-        errorCode = ErrorCode.RESOURCE_NOT_FOUND.getErrCode();
+        errorMsg = ErrorCode.USER_ALREADY_EXISTS.getErrMsg();
+        errorCode = ErrorCode.USER_ALREADY_EXISTS.getErrCode();
     }
 
     public String getErrorMsg() {
@@ -23,5 +22,6 @@ public class ResourceNotFoundException extends RuntimeException{
 
     public String getErrorCode() {
         return errorCode;
-    }
+    }   
+    
 }

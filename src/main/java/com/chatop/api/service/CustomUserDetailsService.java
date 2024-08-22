@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.stereotype.Service;
 
+import com.chatop.api.model.CustomUserDetails;
 import com.chatop.api.model.UserEntity;
 import com.chatop.api.repository.UserRepository;
 
@@ -30,10 +30,11 @@ public class CustomUserDetailsService implements UserDetailsService{
         UserEntity entity = userRepository.findByEmail(email);
         if (Objects.isNull(entity)) 
             throw new UsernameNotFoundException("Unknown Email address");
-        UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(email);
-        builder.password(entity.getPassword());
-        builder.roles("USER");
-        return builder.build();
+        // UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(email);
+        // builder.password(entity.getPassword());
+        // builder.roles("USER");
+        // return builder.build();
+       return new CustomUserDetails(entity);
     }
 
 }
