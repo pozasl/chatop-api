@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.chatop.api.exception.ErrorCode;
 import com.chatop.api.exception.ResourceNotFoundException;
+import com.chatop.api.exception.UserAlreadyExistsException;
 import com.chatop.api.model.GenericEntityToModelMapper;
 import com.chatop.api.model.NewUser;
 import com.chatop.api.model.User;
@@ -38,6 +40,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User createUser(NewUser newUser) throws Exception {
+        if (null != this.getUserByEmail(newUser.getEmail()))
+            throw new UserAlreadyExistsException(ErrorCode.USER_ALREADY_EXISTS);
         UserEntity entity = new UserEntity(newUser.getName(), newUser.getEmail(), encoder.encode(newUser.getPassword()));
         return userMapper.entityToModel(this.userRepository.save(entity), new User());
     }
