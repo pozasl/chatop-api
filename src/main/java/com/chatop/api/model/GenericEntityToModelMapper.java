@@ -3,13 +3,11 @@ package com.chatop.api.model;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Component;
 
 import com.chatop.api.entity.GenericEntity;
 
-@Component
 public class GenericEntityToModelMapper<S extends GenericEntity<S>, T extends GenericModel<T>> {
-    public T entityToModel(S entity, T model) {
+    protected T entityToModel(S entity, T model) {
         BeanUtils.copyProperties(entity, model);
         // 2022/02/02
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd");

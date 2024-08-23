@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.chatop.api.entity.RentalEntity;
 import com.chatop.api.exception.ResourceNotFoundException;
-import com.chatop.api.model.GenericEntityToModelMapper;
 import com.chatop.api.model.NewRental;
 import com.chatop.api.model.Rental;
+import com.chatop.api.model.RentalMapper;
 import com.chatop.api.repository.RentalRepository;
 import com.chatop.api.repository.UserRepository;
 
@@ -22,10 +22,10 @@ public class RentalServiceImpl implements RentalService {
 
     private RentalRepository rentalRepository;
     private UserRepository userRepository;
-    private GenericEntityToModelMapper<RentalEntity,Rental> entityToModelMapper;
+    private RentalMapper entityToModelMapper;
 
     @Autowired
-    public RentalServiceImpl(RentalRepository rentalRepository, UserRepository userRepository, GenericEntityToModelMapper<RentalEntity,Rental> entityToModelMapper) {
+    public RentalServiceImpl(RentalRepository rentalRepository, UserRepository userRepository, RentalMapper entityToModelMapper) {
         this.rentalRepository = rentalRepository;
         this.userRepository = userRepository;
         this.entityToModelMapper = entityToModelMapper;
@@ -36,7 +36,7 @@ public class RentalServiceImpl implements RentalService {
         List<Rental> rentals = new ArrayList<>();
         rentalRepository.findAll().forEach(
             e ->  {
-                Rental rental = entityToModelMapper.entityToModel(e, new Rental());
+                Rental rental = entityToModelMapper.entityToModel(e);
                 rental.setOwnerId(e.getUser().getId());
                 rentals.add(rental);
             }
@@ -50,13 +50,13 @@ public class RentalServiceImpl implements RentalService {
         BeanUtils.copyProperties(newRental, newEntity);
         newEntity.setUser(userRepository.findByEmail(userEmail));
         newEntity.setPicture(imgSrc);
-        return entityToModelMapper.entityToModel(rentalRepository.save(newEntity), new Rental());
+        return entityToModelMapper.entityToModel(rentalRepository.save(newEntity));
     }
 
     @Override
     public Rental getRentalById(int id)  throws Exception {
         RentalEntity entity = this.foundEntityById(id);
-        Rental rental =  entityToModelMapper.entityToModel(entity, new Rental());
+        Rental rental =  entityToModelMapper.entityToModel(entity);
         rental.setOwnerId(entity.getUser().getId());
         return rental;
     }
