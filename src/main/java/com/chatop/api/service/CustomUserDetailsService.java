@@ -30,10 +30,6 @@ public class CustomUserDetailsService implements UserDetailsService{
         UserEntity entity = userRepository.findByEmail(email);
         if (Objects.isNull(entity)) 
             throw new UsernameNotFoundException("Unknown Email address");
-        // UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(email);
-        // builder.password(entity.getPassword());
-        // builder.roles("USER");
-        // return builder.build();
        return new CustomUserDetails(entity);
     }
 
