@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import com.chatop.api.entity.RentalEntity;
 import com.chatop.api.exception.ResourceNotFoundException;
 import com.chatop.api.model.GenericEntityToModelMapper;
 import com.chatop.api.model.NewRental;
 import com.chatop.api.model.Rental;
-import com.chatop.api.model.RentalEntity;
 import com.chatop.api.repository.RentalRepository;
 import com.chatop.api.repository.UserRepository;
 

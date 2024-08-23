@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.chatop.api.entity.UserEntity;
 import com.chatop.api.exception.ErrorCode;
 import com.chatop.api.exception.ResourceNotFoundException;
 import com.chatop.api.exception.UserAlreadyExistsException;
 import com.chatop.api.model.GenericEntityToModelMapper;
 import com.chatop.api.model.NewUser;
 import com.chatop.api.model.User;
-import com.chatop.api.model.UserEntity;
 import com.chatop.api.repository.UserRepository;
 
 @Service

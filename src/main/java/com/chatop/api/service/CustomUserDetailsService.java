@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.chatop.api.entity.UserEntity;
 import com.chatop.api.model.CustomUserDetails;
-import com.chatop.api.model.UserEntity;
 import com.chatop.api.repository.UserRepository;
 
 /**

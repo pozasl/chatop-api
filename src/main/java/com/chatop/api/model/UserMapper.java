@@ -6,6 +6,8 @@ import java.util.Objects;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import com.chatop.api.entity.UserEntity;
+
 @Component
 public class UserMapper {
   

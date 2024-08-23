@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import com.chatop.api.entity.GenericEntity;
+
 @Component
 public class GenericEntityToModelMapper<S extends GenericEntity<S>, T extends GenericModel<T>> {
     public T entityToModel(S entity, T model) {
