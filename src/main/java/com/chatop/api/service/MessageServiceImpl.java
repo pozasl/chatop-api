@@ -10,7 +10,7 @@ import com.chatop.api.entity.MessageEntity;
 import com.chatop.api.entity.RentalEntity;
 import com.chatop.api.entity.UserEntity;
 import com.chatop.api.exception.ResourceNotFoundException;
-import com.chatop.api.model.Message;
+import com.chatop.api.model.NewMessage;
 import com.chatop.api.repository.MessageRepository;
 import com.chatop.api.repository.RentalRepository;
 import com.chatop.api.repository.UserRepository;
@@ -32,7 +32,7 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public void create(Message message, String userEmail) throws Exception {
+    public void create(NewMessage message, String userEmail) throws Exception {
         UserEntity user = userRepository.findByEmail(userEmail);
         if (user.getId() != message.getUserId())
             throw new AccessDeniedException("Trying to post message with another user id");

@@ -1,4 +1,4 @@
-package com.chatop.api;
+package com.chatop.api.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -19,7 +19,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.chatop.api.controller.RentalController;
 import com.chatop.api.service.FileStorageServiceImpl;
 import com.chatop.api.service.RentalServiceImpl;
 

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chatop.api.model.Message;
+import com.chatop.api.model.NewMessage;
 import com.chatop.api.model.ResponseMessageInfo;
 import com.chatop.api.service.MessageService;
 
@@ -25,7 +25,7 @@ public class MessageController {
     }
 
     @PostMapping("/messages")
-    public ResponseMessageInfo createMessage(@Valid @RequestBody Message message, Authentication auth) throws Exception{
+    public ResponseMessageInfo createMessage(@Valid @RequestBody NewMessage message, Authentication auth) throws Exception{
         messageService.create(message, auth.getName());
         return new ResponseMessageInfo("Message send with success");
     }

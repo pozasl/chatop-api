@@ -1,7 +1,7 @@
 package com.chatop.api.service;
 
-import com.chatop.api.model.Message;
+import com.chatop.api.model.NewMessage;
 
 public interface MessageService {
-    public void create(Message message, String userEmail) throws Exception;
+    public void create(NewMessage message, String userEmail) throws Exception;
 }

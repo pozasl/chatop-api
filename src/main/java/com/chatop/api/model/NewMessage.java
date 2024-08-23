@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class Message {
+public class NewMessage {
 
     @NotBlank
     @Size(max = 2000, message = "{validation.name.size.too_long}")
@@ -26,7 +26,7 @@ public class Message {
         return message;
     }
 
-    public Message setMessage(String message) {
+    public NewMessage setMessage(String message) {
         this.message = message;
         return this;
     }
@@ -37,7 +37,7 @@ public class Message {
     }
 
     @JsonSetter("user_id")
-    public Message setUserId(int userId) {
+    public NewMessage setUserId(int userId) {
         this.userId = userId;
         return this;
     }
@@ -48,7 +48,7 @@ public class Message {
     }
 
     @JsonSetter("rental_id")
-    public Message setRentalId(int rentalId) {
+    public NewMessage setRentalId(int rentalId) {
         this.rentalId = rentalId;
         return this;
     }
