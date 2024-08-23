@@ -22,24 +22,20 @@ public class RentalServiceImpl implements RentalService {
 
     private RentalRepository rentalRepository;
     private UserRepository userRepository;
-    private RentalMapper entityToModelMapper;
+    private RentalMapper rentalMapper;
 
     @Autowired
-    public RentalServiceImpl(RentalRepository rentalRepository, UserRepository userRepository, RentalMapper entityToModelMapper) {
+    public RentalServiceImpl(RentalRepository rentalRepository, UserRepository userRepository, RentalMapper rentalMapper) {
         this.rentalRepository = rentalRepository;
         this.userRepository = userRepository;
-        this.entityToModelMapper = entityToModelMapper;
+        this.rentalMapper = rentalMapper;
     }
 
     @Override
     public List<Rental> getAllRentals() {
         List<Rental> rentals = new ArrayList<>();
         rentalRepository.findAll().forEach(
-            e ->  {
-                Rental rental = entityToModelMapper.entityToModel(e);
-                rental.setOwnerId(e.getUser().getId());
-                rentals.add(rental);
-            }
+            e ->  rentals.add(rentalMapper.entityToModel(e))
         );
         return rentals;
     }
@@ -50,15 +46,13 @@ public class RentalServiceImpl implements RentalService {
         BeanUtils.copyProperties(newRental, newEntity);
         newEntity.setUser(userRepository.findByEmail(userEmail));
         newEntity.setPicture(imgSrc);
-        return entityToModelMapper.entityToModel(rentalRepository.save(newEntity));
+        return rentalMapper.entityToModel(rentalRepository.save(newEntity));
     }
 
     @Override
     public Rental getRentalById(int id)  throws Exception {
         RentalEntity entity = this.foundEntityById(id);
-        Rental rental =  entityToModelMapper.entityToModel(entity);
-        rental.setOwnerId(entity.getUser().getId());
-        return rental;
+        return rentalMapper.entityToModel(entity);
     }
 
     @Override
