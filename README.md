@@ -25,6 +25,7 @@ A Devcontainer environment is provided with a JDK container and a MySQL 8.4.2 co
 Otherwise you may need:
 - JDK 17
 - A MySQL Server 8.4 with a dedicated user and DB for the application
+- Generated RSA key pair in src/main/resources/certs (Follow the included README to generate those keys)
 
 Clone this repository then launch the command
 
