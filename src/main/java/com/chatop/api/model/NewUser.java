@@ -18,7 +18,7 @@ public class NewUser {
   @Size(max = 255, message = "{validation.name.size.too_long}")
   private String password;
 
-  NewUser (String name, String email, String password) {
+  public NewUser (String name, String email, String password) {
     this.name = name;
     this.email = email;
     this.password = password;
