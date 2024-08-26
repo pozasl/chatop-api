@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "rentals")
-public class RentalEntity extends GenericEntity<RentalEntity> {
+public class RentalEntity extends AbstractGenericEntity<RentalEntity> {
 
     public RentalEntity() {
         this(null, 0, 0, null, null);

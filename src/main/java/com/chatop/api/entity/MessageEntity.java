@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "messages")
-public class MessageEntity  extends GenericEntity<MessageEntity> {
+public class MessageEntity  extends AbstractGenericEntity<MessageEntity> {
 
     private String message;
 

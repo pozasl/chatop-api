@@ -15,7 +15,7 @@ import jakarta.persistence.TemporalType;
 import jakarta.persistence.Transient;
 
 @MappedSuperclass
-public abstract class GenericEntity<T extends GenericEntity<?>> {
+public abstract class AbstractGenericEntity<T extends AbstractGenericEntity<?>> {
 
     @Transient
     protected final T self;
@@ -24,7 +24,8 @@ public abstract class GenericEntity<T extends GenericEntity<?>> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
 
-    protected GenericEntity(final Class<T> selfClass) {
+    protected AbstractGenericEntity(final Class<T> selfClass) {
+        // Casting this as Child Class for method chaining heritage
         self = selfClass.cast(this);
     }
 

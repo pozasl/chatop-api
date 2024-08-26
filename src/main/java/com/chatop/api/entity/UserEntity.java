@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users", indexes = @Index(name = "users_index", columnList = "email", unique = true))
-public class UserEntity extends GenericEntity<UserEntity> {
+public class UserEntity extends AbstractGenericEntity<UserEntity> {
 
   public UserEntity() {
      this(null, null, null);
