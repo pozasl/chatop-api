@@ -1,24 +1,29 @@
 package com.chatop.api.entity;
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "users", indexes = @Index(name = "users_index", columnList = "email", unique = true))
-public class UserEntity extends AbstractGenericEntity<UserEntity> {
+public class UserEntity {
 
-  public UserEntity() {
-     this(null, null, null);
-  }
-
-  public UserEntity(String name, String email, String password) {
-    super(UserEntity.class);
-    this.name = name;
-    this.email = email;
-    this.password = password;
-  }
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  protected int id;
 
   @Column(unique = true)
   private String email;
@@ -27,37 +32,14 @@ public class UserEntity extends AbstractGenericEntity<UserEntity> {
 
   private String password;
 
-  public String getEmail() {
-    return this.email;
-  }
+  @Column(name = "created_at")
+  @CreationTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
+  protected Date creationDate;
 
-  public UserEntity setEmail(String email) {
-    this.email = email;
-    return this;
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
-  public UserEntity setName(String name) {
-    this.name = name;
-    return this;
-  }
-
-  public String getPassword() {
-    return this.password;
-  }
-
-  public UserEntity setPassword(String password) {
-    this.password = password;
-    return this;
-  }
-
-  @Override
-  public String toString() {
-    return "UserEntity{" + "id=" + id + ", name='" + name + '\'' + ", email='" + email + '\'' + ", password='"
-      + password + '\'' + '}';
-  }
+  @Column(name = "updated_at")
+  @UpdateTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
+  protected Date modificationDate;
 
 }

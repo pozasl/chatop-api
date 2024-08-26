@@ -1,5 +1,7 @@
 package com.chatop.api.service;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -29,17 +31,31 @@ public class MessageServiceImplUnitTest {
     private UserRepository userRepository;
 
     @InjectMocks
-    private MessageServiceImpl employeeService;
+    private MessageServiceImpl messageService;
 
     @Test
     public void createShoudWork() throws Exception {
-        String email = "alice@test.com";
-        UserEntity user = new UserEntity().setId(2);
-        RentalEntity rental = new RentalEntity().setId(1);
+
+        Date now = Date.from(Instant.now());
+        UserEntity user = new UserEntity();
+        user.setId(2);
+        user.setName("alice");
+        user.setEmail("alice@test.com");
+        user.setCreationDate(now);
+        user.setModificationDate(now);
+        RentalEntity rental = new RentalEntity();
+        rental.setName("rental name");
+        rental.setSurface(50);
+        rental.setPrice(200);
+        rental.setPicture("upload/test.jpg");
+        rental.setDescription("Desc");
+        rental.setUser(user);
+        rental.setCreationDate(now);
+        rental.setModificationDate(now);
         Optional<RentalEntity> opt = Optional.of(rental);
-        Mockito.when(userRepository.findByEmail(email)).thenReturn(user);
+        Mockito.when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
         Mockito.when(rentalRepository.findById(1)).thenReturn(opt);
         NewMessage message = new NewMessage("yo",2,1);
-        employeeService.create(message, email);
+        messageService.create(message, user.getEmail());
     }
 }
