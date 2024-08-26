@@ -1,4 +1,4 @@
-package com.chatop.api.model;
+package com.chatop.api.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

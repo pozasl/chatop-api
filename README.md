@@ -25,6 +25,7 @@ A Devcontainer environment is provided with a JDK container and a MySQL 8.4.2 co
 Otherwise you may need:
 - JDK 17
 - A MySQL Server 8.4 with a dedicated user and DB for the application
+- Generated RSA key pair in src/main/resources/certs (Follow the included README to generate those keys)
 
 Clone this repository then launch the command
 
@@ -79,7 +80,7 @@ source script.sql
 
 #### Launch the REST API Server
 Download the last released JAR:
-[api-0.0.3](https://github.com/pozasl/chatop-api/releases/download/0.0.3/api-0.0.3.jar)
+[api-1.0.0](https://github.com/pozasl/chatop-api/releases/download/1.0.0/api-1.0.0.jar)
 
 Set the database connection parameters as environment variables according to the mysql server settings and created user credentials
 
@@ -98,13 +99,13 @@ mkdir upload
 
 Then run with the command:
 ```Bash
-java -jar -Dspring.profiles.active=prod api-0.0.3.jar
+java -jar -Dspring.profiles.active=prod api-1.0.0.jar
 ```
 The backend server will be listening on port 8080
 
 ## API documentation
 
-The API is documented on [SwaggerHub](https://app.swaggerhub.com/apis/LOICPOZAS/chatop_open-api_definition/v0.0.2)
+The API is documented on [SwaggerHub](https://app.swaggerhub.com/apis/LOICPOZAS/chatop_open-api_definition/v0.0.3)
 
 When the server is running, The API's documentation is available at http://localhost:8080/swagger-ui/index.html
 

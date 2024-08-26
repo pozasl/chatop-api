@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chatop.api.model.User;
 import com.chatop.api.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -20,6 +22,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "Get a User by its id")
     @GetMapping("/{id}")
     public User getUserById(@PathVariable int id) throws Exception {
         return this.userService.getUserById(id);

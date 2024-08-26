@@ -1,4 +1,4 @@
-package com.chatop.api;
+package com.chatop.api.controller;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,7 +15,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.security.Principal;
 
-import com.chatop.api.controller.MessageController;
 import com.chatop.api.service.MessageService;
 
 @WebMvcTest(controllers = MessageController.class)
