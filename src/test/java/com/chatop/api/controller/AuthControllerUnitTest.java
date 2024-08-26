@@ -1,4 +1,4 @@
-package com.chatop.api;
+package com.chatop.api.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.chatop.api.controller.AuthController;
 import com.chatop.api.service.JwtServiceImpl;
 import com.chatop.api.service.UserServiceImpl;
 
