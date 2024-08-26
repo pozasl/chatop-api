@@ -28,6 +28,8 @@ public abstract class AbstractGenericEntity<T extends AbstractGenericEntity<?>> 
         // Casting this as Child Class for method chaining inheritance
         self = selfClass.cast(this);
         this.id = -1;
+        this.creationDate = null;
+        this.modificationDate = null;
     }
 
     @Column(name = "created_at")
