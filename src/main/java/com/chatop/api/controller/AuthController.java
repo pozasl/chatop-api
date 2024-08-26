@@ -2,9 +2,10 @@ package com.chatop.api.controller;
 
 import java.util.Objects;
 
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -63,9 +64,9 @@ public class AuthController {
     @Operation(summary = "Get the logged in user information")
     @GetMapping("/me")
     public User me(Authentication auth) throws Exception {
-        if(Objects.isNull(auth)) throw new AuthenticationException("Couldn't authenticate");
+        if(Objects.isNull(auth)) throw new BadCredentialsException("Couldn't authenticate");
             User user = userService.getUserByEmail(auth.getName());
-        if(Objects.isNull(user)) throw new AuthenticationException("Couldn't authenticate");
+        if(Objects.isNull(user)) throw new BadCredentialsException("Couldn't authenticate");
             return user;
     }
     
