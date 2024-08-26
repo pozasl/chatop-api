@@ -47,7 +47,7 @@ public class RentalController {
     @Operation(summary = "Add a new Rental")
     @PostMapping("/rentals")
     public ResponseMessageInfo create(@Valid @ModelAttribute NewRental newRental, Authentication auth) throws Exception {
-        String imgSrc = fileStorageService.saveFile(newRental.getPicture());
+        String imgSrc = fileStorageService.saveFile(newRental.picture());
         try {
             rentalService.createRental(newRental, auth.getName(), imgSrc);
         } catch(Exception e)

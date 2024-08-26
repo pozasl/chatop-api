@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users", indexes = @Index(name = "users_index", columnList = "email", unique = true))
-public class UserEntity extends GenericEntity<UserEntity> {
+public class UserEntity extends AbstractGenericEntity<UserEntity> {
 
   public UserEntity() {
      this(null, null, null);
@@ -15,12 +15,10 @@ public class UserEntity extends GenericEntity<UserEntity> {
 
   public UserEntity(String name, String email, String password) {
     super(UserEntity.class);
-    this.id = -1;
     this.name = name;
     this.email = email;
     this.password = password;
   }
-
 
   @Column(unique = true)
   private String email;

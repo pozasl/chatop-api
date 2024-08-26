@@ -35,11 +35,10 @@ public class UserServiceImplUnitTest {
     @InjectMocks
     UserServiceImpl userService;
 
-
     @Test
     public void getUserByIdShoudWork() throws Exception {
         UserEntity userEntity = new UserEntity().setId(1);
-        User user = new User().setId(1);
+        User user = new User(1,"bob", "bob@test.com", "2024/08/02", "2024/08/02");
         Optional<UserEntity> userOpt = Optional.of(userEntity);
         Mockito.when(userRepository.findById(1)).thenReturn(userOpt);
         Mockito.when(userMapper.entityToModel(userEntity)).thenReturn(user);
@@ -60,7 +59,7 @@ public class UserServiceImplUnitTest {
     @Test
     public void createUserShoudWork() throws Exception {
         NewUser newUser = new NewUser("alice", "alice@test.com", "pass1234");
-        User user = new User().setId(2).setName("alice").setEmail("alice@test.com").setCreated("2024/08/25").setUpdated("2024/08/25");
+        User user = new User(2,"alice","alice@test.com", "2024/08/25","2024/08/25");
         Mockito.when(userRepository.findByEmail("alice@test.com")).thenReturn(null);
         Mockito.when(userMapper.entityToModel(any())).thenReturn(user);
         User userSaved = userService.createUser(newUser);
@@ -83,10 +82,9 @@ public class UserServiceImplUnitTest {
         UserEntity userEntity = new UserEntity().setId(2).setName("alice").setEmail("alice@test.com")
             .setCreationDate(Date.from(Instant.now()))
             .setModificationDate(Date.from(Instant.now()));
-        User user = new User().setId(2).setName("alice").setEmail("alice@test.com").setCreated("2024/08/25").setUpdated("2024/08/25");
+        User user = new User(2,"alice","alice@test.com", "2024/08/25","2024/08/25");
         Mockito.when(userRepository.findByEmail("alice@test.com")).thenReturn(userEntity);
         Mockito.when(userMapper.entityToModel(userEntity)).thenReturn(user);
         assertThat(userService.getUserByEmail("alice@test.com")).isEqualTo(user);
     }
-    
 }

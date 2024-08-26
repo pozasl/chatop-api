@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "messages")
-public class MessageEntity  extends GenericEntity<MessageEntity> {
+public class MessageEntity  extends AbstractGenericEntity<MessageEntity> {
 
     private String message;
 
@@ -18,8 +18,11 @@ public class MessageEntity  extends GenericEntity<MessageEntity> {
     @ManyToOne
     @JoinColumn(name="rental_id", nullable = false)
     private RentalEntity rental;
-        
 
+    public MessageEntity() {
+        this(null, null, null);
+    }
+        
     public MessageEntity(String message, UserEntity user, RentalEntity rental) {
         super(MessageEntity.class);
         this.message = message;

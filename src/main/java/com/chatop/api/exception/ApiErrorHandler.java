@@ -7,6 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -84,6 +85,14 @@ public class ApiErrorHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AccessDeniedException.class)
     ResponseEntity<ResponseMessageInfo> handleAccessDeniedException(HttpServletRequest request, Exception ex, Locale local) {
+        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    // 401: Missing auth
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(BadCredentialsException.class)
+    ResponseEntity<ResponseMessageInfo> handleBadCredentialsException(HttpServletRequest request, Exception ex, Locale local) {
         ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
