@@ -22,6 +22,7 @@ import com.chatop.api.service.JwtService;
 import com.chatop.api.service.JwtServiceImpl;
 import com.chatop.api.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -39,6 +40,7 @@ public class AuthController {
         this.jwtService = jwtService;
     }
 
+    @Operation(summary = "Register a new User")
     @PostMapping("/register")
     public JwtInfo register(@Valid @RequestBody NewUser newUser ) throws Exception {
         userService.createUser(newUser);
@@ -48,6 +50,7 @@ public class AuthController {
         return new JwtInfo(token);
     }
 
+    @Operation(summary = "Login an existing user")
     @PostMapping("/login")
     public JwtInfo login(@Valid @RequestBody AuthInfo authInfo) throws Exception {
         Authentication authentication = authenticationManager
@@ -57,10 +60,13 @@ public class AuthController {
         return new JwtInfo(token);
     }
 
+    @Operation(summary = "Get the logged in user information")
     @GetMapping("/me")
     public User me(Authentication auth) throws Exception {
         if(Objects.isNull(auth)) throw new AuthenticationException("Couldn't authenticate");
-      return userService.getUserByEmail(auth.getName());
+            User user = userService.getUserByEmail(auth.getName());
+        if(Objects.isNull(user)) throw new AuthenticationException("Couldn't authenticate");
+            return user;
     }
     
 }

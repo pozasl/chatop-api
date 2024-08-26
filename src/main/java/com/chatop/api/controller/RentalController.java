@@ -21,6 +21,7 @@ import com.chatop.api.service.FileStorageServiceImpl;
 import com.chatop.api.service.RentalService;
 import com.chatop.api.service.RentalServiceImpl;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -36,12 +37,14 @@ public class RentalController {
         this.fileStorageService = fileStorageService;
     }
 
+    @Operation(summary = "Get all Rentals")
     @GetMapping("/rentals")
     public RentalsCollection getRentals() throws Exception {
         List<Rental>rentals = rentalService.getAllRentals();
         return new RentalsCollection(rentals);
     }
 
+    @Operation(summary = "Add a new Rental")
     @PostMapping("/rentals")
     public ResponseMessageInfo create(@Valid @ModelAttribute NewRental newRental, Authentication auth) throws Exception {
         String imgSrc = fileStorageService.saveFile(newRental.getPicture());
@@ -56,11 +59,13 @@ public class RentalController {
         return new ResponseMessageInfo("Rental created !");
     }
 
+    @Operation(summary = "Get a Rental by its id")
     @GetMapping("/rentals/{id}")
     public Rental getRentalById(@PathVariable int id) throws Exception {
         return rentalService.getRentalById(id);
     }
 
+    @Operation(summary = "Update the Rental with id")
     @PutMapping("/rentals/{id}")
     public ResponseMessageInfo updateRentalById(@PathVariable int id, @Valid @ModelAttribute NewRental newRental, Authentication auth) throws Exception {
         rentalService.saveRentalById(id, newRental, auth.getName());

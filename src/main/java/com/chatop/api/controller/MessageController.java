@@ -11,6 +11,7 @@ import com.chatop.api.model.NewMessage;
 import com.chatop.api.model.ResponseMessageInfo;
 import com.chatop.api.service.MessageService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -24,6 +25,7 @@ public class MessageController {
         this.messageService = messageService;
     }
 
+    @Operation(summary = "Post a new message")
     @PostMapping("/messages")
     public ResponseMessageInfo createMessage(@Valid @RequestBody NewMessage message, Authentication auth) throws Exception{
         messageService.create(message, auth.getName());
