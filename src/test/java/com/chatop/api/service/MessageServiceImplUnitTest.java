@@ -39,7 +39,7 @@ public class MessageServiceImplUnitTest {
         Optional<RentalEntity> opt = Optional.of(rental);
         Mockito.when(userRepository.findByEmail(email)).thenReturn(user);
         Mockito.when(rentalRepository.findById(1)).thenReturn(opt);
-        NewMessage message = new NewMessage().setMessage("yo").setRentalId(1).setUserId(2);
+        NewMessage message = new NewMessage("yo",2,1);
         employeeService.create(message, email);
     }
 }

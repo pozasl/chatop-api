@@ -1,29 +1,13 @@
 package com.chatop.api.model;
 
-public class User extends GenericModel<User> {
-  private String name;
-  private String email;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-  public User() {
-    super(User.class);
-  }
-
-  public String getEmail() {
-    return this.email;
-  }
-
-  public User setEmail(String email) {
-    this.email = email;
-    return this;
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
-  public User setName(String name) {
-    this.name = name;
-    return this;
-  }
-  
-}
+public record User (
+  int id,
+  String name,
+  String email,
+  @JsonProperty("created_at")
+  String createdAt,
+  @JsonProperty("updated_at")
+  String updatedAt
+) {}

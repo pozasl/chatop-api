@@ -34,12 +34,12 @@ public class MessageServiceImpl implements MessageService{
     @Override
     public void create(NewMessage message, String userEmail) throws Exception {
         UserEntity user = userRepository.findByEmail(userEmail);
-        if (user.getId() != message.getUserId())
+        if (user.getId() != message.userId())
             throw new AccessDeniedException("Trying to post message with another user id");
-        Optional<RentalEntity> rentalOpt = rentalRepository.findById(message.getRentalId());
+        Optional<RentalEntity> rentalOpt = rentalRepository.findById(message.rentalId());
         if (rentalOpt.isEmpty()) 
             throw new ResourceNotFoundException("Unknown rental id");
-        MessageEntity entity = new MessageEntity(message.getMessage(), user, rentalOpt.get());
+        MessageEntity entity = new MessageEntity(message.message(), user, rentalOpt.get());
         messageRepository.save(entity);
     }
     

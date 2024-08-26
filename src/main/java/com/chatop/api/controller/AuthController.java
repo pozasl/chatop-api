@@ -45,7 +45,7 @@ public class AuthController {
     public JwtInfo register(@Valid @RequestBody NewUser newUser ) throws Exception {
         userService.createUser(newUser);
         Authentication authentication = authenticationManager
-            .authenticate(new UsernamePasswordAuthenticationToken(newUser.getEmail(), newUser.getPassword()));
+            .authenticate(new UsernamePasswordAuthenticationToken(newUser.email(), newUser.password()));
         String token = jwtService.generateToken(authentication);
         return new JwtInfo(token);
     }
@@ -54,7 +54,7 @@ public class AuthController {
     @PostMapping("/login")
     public JwtInfo login(@Valid @RequestBody AuthInfo authInfo) throws Exception {
         Authentication authentication = authenticationManager
-            .authenticate(new UsernamePasswordAuthenticationToken(authInfo.getEmail(), authInfo.getPassword()));
+            .authenticate(new UsernamePasswordAuthenticationToken(authInfo.email(), authInfo.password()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtService.generateToken(authentication);
         return new JwtInfo(token);
