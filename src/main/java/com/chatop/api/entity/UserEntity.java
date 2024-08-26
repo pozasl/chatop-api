@@ -21,7 +21,6 @@ public class UserEntity extends GenericEntity<UserEntity> {
     this.password = password;
   }
 
-
   @Column(unique = true)
   private String email;
 
