@@ -39,7 +39,10 @@ public class MessageServiceImpl implements MessageService{
         Optional<RentalEntity> rentalOpt = rentalRepository.findById(message.rentalId());
         if (rentalOpt.isEmpty()) 
             throw new ResourceNotFoundException("Unknown rental id");
-        MessageEntity entity = new MessageEntity(message.message(), user, rentalOpt.get());
+        MessageEntity entity = new MessageEntity();
+        entity.setMessage(message.message());
+        entity.setUser(user);
+        entity.setRental(rentalOpt.get());
         messageRepository.save(entity);
     }
     

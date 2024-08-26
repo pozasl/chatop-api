@@ -1,15 +1,32 @@
 package com.chatop.api.entity;
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "messages")
-public class MessageEntity  extends AbstractGenericEntity<MessageEntity> {
+public class MessageEntity  {
 
     private String message;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected int id;
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
@@ -19,41 +36,13 @@ public class MessageEntity  extends AbstractGenericEntity<MessageEntity> {
     @JoinColumn(name="rental_id", nullable = false)
     private RentalEntity rental;
 
-    public MessageEntity() {
-        this(null, null, null);
-    }
-        
-    public MessageEntity(String message, UserEntity user, RentalEntity rental) {
-        super(MessageEntity.class);
-        this.message = message;
-        this.user = user;
-        this.rental = rental;
-    }
+    @Column(name = "created_at")
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    protected Date creationDate;
 
-    public String getMessage() {
-        return this.message;
-    }
-
-    public MessageEntity setMessage(String message) {
-        this.message = message;
-        return this;
-    }
-
-    public UserEntity getUser() {
-        return this.user;
-    }
-
-    public MessageEntity setUser(UserEntity user) {
-        this.user = user;
-        return this;
-    }
-
-    public RentalEntity getRental() {
-        return this.rental;
-    }
-
-    public MessageEntity setRental(RentalEntity rental) {
-        this.rental = rental;
-        return this;
-    }
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    protected Date modificationDate;
 }
