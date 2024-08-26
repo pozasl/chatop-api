@@ -103,7 +103,7 @@ mkdir upload
 
 Then run with the command:
 ```Bash
-java -jar -Dspring.profiles.active=prod api-1.0.0.jar
+java -jar api-1.0.0.jar
 ```
 The backend server will be listening on port 8080
 
