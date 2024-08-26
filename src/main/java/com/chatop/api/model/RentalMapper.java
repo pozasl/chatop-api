@@ -5,10 +5,18 @@ import org.springframework.stereotype.Component;
 import com.chatop.api.entity.RentalEntity;
 
 @Component
-public class RentalMapper extends GenericEntityToModelMapper<RentalEntity, Rental>{
+public class RentalMapper extends AbstractEntityToModelMapper {
     public Rental entityToModel(RentalEntity rentalEntity) {
-        Rental rental = super.entityToModel(rentalEntity, new Rental());
-        rental.setOwnerId(rentalEntity.getUser().getId());
-        return rental;
+        return new Rental(
+            rentalEntity.getId(),
+            rentalEntity.getName(),
+            rentalEntity.getSurface(),
+            rentalEntity.getPrice(),
+            rentalEntity.getPicture(),
+            rentalEntity.getDescription(),
+            rentalEntity.getUser().getId(),
+            convertDateForModel(rentalEntity.getCreationDate()),
+            convertDateForModel(rentalEntity.getModificationDate())
+        );
     }
 }

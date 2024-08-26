@@ -24,21 +24,25 @@ A Devcontainer environment is provided with a JDK container and a MySQL 8.4.2 co
 
 Otherwise you may need:
 - JDK 17
-- A MySQL Server 8.4 with a dedicated user and DB for the application
+- A MySQL Server 8.4 with a dedicated user and DB
 - Generated RSA key pair in src/main/resources/certs (Follow the included README to generate those keys)
 
 Clone this repository then launch the command
 
-To test in local run:
+check the [MySQL](#MySQL) section to setup a developpement database
+
+To compile and run in local:
+
 ```Bash
 ./mwnw spring-boot:run
 ```
 The API is exposed on port 8080
+The default profile is the dev profile. It drops the database after each run;
 
-To build the final artefact run:
+To build the final artefact with production settings run:
 
 ```Bash
-./mwnw clean install
+./mwnw -Pprod clean install
 ```
 The Jar file wil be produced in the "target" fodler.
 
@@ -60,7 +64,7 @@ mysql -u root -p
 
 ```sql
 CREATE DATABASE `chatopdb`;
-CREATE USER `chatopuser`@`%` IDENTIFIED BY "A_v3Ry_StR0nG_p4Ss";
+CREATE USER `chatopuser`@`%` IDENTIFIED BY "SECRET_PASSWORD_HERE";
 GRANT ALL PRIVILEGES ON `chatopdb`.* TO `chatopuser`@`%`;
 FLUSH PRIVILEGES;
 ```
@@ -80,7 +84,7 @@ source script.sql
 
 #### Launch the REST API Server
 Download the last released JAR:
-[api-1.0.0](https://github.com/pozasl/chatop-api/releases/download/1.0.0/api-1.0.0.jar)
+[api-1.0.1](https://github.com/pozasl/chatop-api/releases/download/1.0.1/api-1.0.1.jar)
 
 Set the database connection parameters as environment variables according to the mysql server settings and created user credentials
 
@@ -99,13 +103,13 @@ mkdir upload
 
 Then run with the command:
 ```Bash
-java -jar -Dspring.profiles.active=prod api-1.0.0.jar
+java -jar api-1.0.1.jar
 ```
 The backend server will be listening on port 8080
 
 ## API documentation
 
-The API is documented on [SwaggerHub](https://app.swaggerhub.com/apis/LOICPOZAS/chatop_open-api_definition/v0.0.3)
+The API is documented on [SwaggerHub](https://app.swaggerhub.com/apis/LOICPOZAS/chatop_open-api_definition/v0.0.4)
 
 When the server is running, The API's documentation is available at http://localhost:8080/swagger-ui/index.html
 

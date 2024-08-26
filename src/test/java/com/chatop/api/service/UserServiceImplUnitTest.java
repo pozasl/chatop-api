@@ -1,8 +1,11 @@
 package com.chatop.api.service;
 
-import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,11 +38,18 @@ public class UserServiceImplUnitTest {
     @InjectMocks
     UserServiceImpl userService;
 
+    private  DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 
     @Test
     public void getUserByIdShoudWork() throws Exception {
-        UserEntity userEntity = new UserEntity().setId(1);
-        User user = new User().setId(1);
+        Date now = df.parse("2024/08/25");
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(1);
+        userEntity.setName("bob");
+        userEntity.setEmail("bob@test.com");
+        userEntity.setCreationDate(now);
+        userEntity.setModificationDate(now);
+        User user = new User(1,"bob", "bob@test.com", "2024/08/25", "2024/08/25");
         Optional<UserEntity> userOpt = Optional.of(userEntity);
         Mockito.when(userRepository.findById(1)).thenReturn(userOpt);
         Mockito.when(userMapper.entityToModel(userEntity)).thenReturn(user);
@@ -60,7 +70,7 @@ public class UserServiceImplUnitTest {
     @Test
     public void createUserShoudWork() throws Exception {
         NewUser newUser = new NewUser("alice", "alice@test.com", "pass1234");
-        User user = new User().setId(2).setName("alice").setEmail("alice@test.com").setCreated("2024/08/25").setUpdated("2024/08/25");
+        User user = new User(2,"alice","alice@test.com", "2024/08/25","2024/08/25");
         Mockito.when(userRepository.findByEmail("alice@test.com")).thenReturn(null);
         Mockito.when(userMapper.entityToModel(any())).thenReturn(user);
         User userSaved = userService.createUser(newUser);
@@ -80,13 +90,22 @@ public class UserServiceImplUnitTest {
 
     @Test
     public void getUserByEmailShouldWork() throws Exception {
-        UserEntity userEntity = new UserEntity().setId(2).setName("alice").setEmail("alice@test.com")
-            .setCreationDate(Date.from(Instant.now()))
-            .setModificationDate(Date.from(Instant.now()));
-        User user = new User().setId(2).setName("alice").setEmail("alice@test.com").setCreated("2024/08/25").setUpdated("2024/08/25");
+        Date now = df.parse("2024/08/25");
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(2);
+        userEntity.setName("alice");
+        userEntity.setEmail("alice@test.com");
+        userEntity.setCreationDate(now);
+        userEntity.setModificationDate(now);
+        User user = new User(
+            2,
+            "alice",
+            "alice@test.com",
+            "2024/08/25",
+            "2024/08/25"
+        );
         Mockito.when(userRepository.findByEmail("alice@test.com")).thenReturn(userEntity);
         Mockito.when(userMapper.entityToModel(userEntity)).thenReturn(user);
         assertThat(userService.getUserByEmail("alice@test.com")).isEqualTo(user);
     }
-    
 }

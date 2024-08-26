@@ -40,9 +40,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User createUser(NewUser newUser) throws Exception {
-        if (!Objects.isNull(this.userRepository.findByEmail(newUser.getEmail())))
+        if (!Objects.isNull(this.userRepository.findByEmail(newUser.email())))
             throw new UserAlreadyExistsException(ErrorCode.USER_ALREADY_EXISTS);
-        UserEntity entity = new UserEntity(newUser.getName(), newUser.getEmail(), encoder.encode(newUser.getPassword()));
+        UserEntity entity = new UserEntity();
+        entity.setName(newUser.name());
+        entity.setEmail(newUser.email());
+        entity.setPassword(encoder.encode(newUser.password()));
         return userMapper.entityToModel(this.userRepository.save(entity));
     }
 

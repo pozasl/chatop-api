@@ -5,8 +5,14 @@ import org.springframework.stereotype.Component;
 import com.chatop.api.entity.UserEntity;
 
 @Component
-public class UserMapper extends GenericEntityToModelMapper<UserEntity, User>{
+public class UserMapper extends AbstractEntityToModelMapper{
     public User entityToModel(UserEntity userEntity) {
-        return super.entityToModel(userEntity, new User());
+        return new User(
+            userEntity.getId(),
+            userEntity.getName(),
+            userEntity.getEmail(),
+            convertDateForModel(userEntity.getCreationDate()),
+            convertDateForModel(userEntity.getModificationDate())
+        );
     }
 }
