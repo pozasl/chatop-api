@@ -87,5 +87,4 @@ public class UserServiceImplUnitTest {
         Mockito.when(userMapper.entityToModel(userEntity)).thenReturn(user);
         assertThat(userService.getUserByEmail("alice@test.com")).isEqualTo(user);
     }
-    
 }
