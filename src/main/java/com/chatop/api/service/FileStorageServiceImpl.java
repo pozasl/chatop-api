@@ -79,9 +79,13 @@ public class FileStorageServiceImpl implements FileStorageService {
         Files.delete(filePath);
     }
 
-    private void checkFileParentFolder(Path filePath) throws Exception {
+    /**
+     * Check that the path is or will be in the upload folder
+     * @param filePath
+     * @throws FileStorageException
+     */
+    private void checkFileParentFolder(Path filePath) throws FileStorageException {
         if (!filePath.getParent().equals(this.baseLocation.toAbsolutePath())) {
-            // Security check
             throw new FileStorageException(
                     "Cannot delete file outside current directory.");
         }
