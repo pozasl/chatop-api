@@ -34,4 +34,5 @@ build/
 ## private keys
 src/main/resources/certs/*.pem
 ## upload testing folder
-upload/
+upload/*.jpg
+upload/*.png
