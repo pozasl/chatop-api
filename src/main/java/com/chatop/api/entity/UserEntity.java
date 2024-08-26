@@ -15,7 +15,6 @@ public class UserEntity extends AbstractGenericEntity<UserEntity> {
 
   public UserEntity(String name, String email, String password) {
     super(UserEntity.class);
-    this.id = -1;
     this.name = name;
     this.email = email;
     this.password = password;

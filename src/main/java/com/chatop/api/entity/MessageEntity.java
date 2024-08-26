@@ -18,8 +18,11 @@ public class MessageEntity  extends AbstractGenericEntity<MessageEntity> {
     @ManyToOne
     @JoinColumn(name="rental_id", nullable = false)
     private RentalEntity rental;
-        
 
+    public MessageEntity() {
+        this(null, null, null);
+    }
+        
     public MessageEntity(String message, UserEntity user, RentalEntity rental) {
         super(MessageEntity.class);
         this.message = message;

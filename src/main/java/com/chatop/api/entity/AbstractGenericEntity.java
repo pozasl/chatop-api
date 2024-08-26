@@ -25,8 +25,9 @@ public abstract class AbstractGenericEntity<T extends AbstractGenericEntity<?>> 
     protected int id;
 
     protected AbstractGenericEntity(final Class<T> selfClass) {
-        // Casting this as Child Class for method chaining heritage
+        // Casting this as Child Class for method chaining inheritance
         self = selfClass.cast(this);
+        this.id = -1;
     }
 
     @Column(name = "created_at")
