@@ -45,6 +45,12 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<activatedProperties>test</activatedProperties>
+            </properties>
+		</profile>
 	</profiles>
 
 	<dependencies>
