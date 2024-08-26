@@ -1,7 +1,6 @@
 package com.chatop.api.exception;
 
 public class ResourceNotFoundException extends RuntimeException{
-    // private static final long serialVersionId = 1L;
     private final String errorMsg;
     private final String errorCode;
 
