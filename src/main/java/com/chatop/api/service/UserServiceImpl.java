@@ -51,9 +51,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUserByEmail(String email) throws ResourceNotFoundException {
-        UserEntity user = this.userRepository.findByEmail(email);
-        if (Objects.isNull(user)) throw new ResourceNotFoundException("Unknown user email");
-        return userMapper.entityToModel(user);
+        return userMapper.entityToModel(
+            this.userRepository.findByEmail(email)
+            .orElseThrow(()->new ResourceNotFoundException("Unknown user email"))
+        );
     }
     
 }

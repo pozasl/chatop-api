@@ -80,7 +80,7 @@ class UserServiceImplUnitTest {
     @Test
     void createUserShoudThrow() throws UserAlreadyExistsException {
         NewUser newUser = new NewUser("alice", "alice@test.com", "pass1234");
-        Mockito.when(userRepository.findByEmail("alice@test.com")).thenReturn(new UserEntity());
+        Mockito.when(userRepository.findByEmail("alice@test.com")).thenReturn(Optional.of(new UserEntity()));
         assertThrows(
             UserAlreadyExistsException.class,
             () -> userService.createUser(newUser),
@@ -104,7 +104,7 @@ class UserServiceImplUnitTest {
             "2024/08/25",
             "2024/08/25"
         );
-        Mockito.when(userRepository.findByEmail("alice@test.com")).thenReturn(userEntity);
+        Mockito.when(userRepository.findByEmail("alice@test.com")).thenReturn(Optional.of(userEntity));
         Mockito.when(userMapper.entityToModel(userEntity)).thenReturn(user);
         assertThat(userService.getUserByEmail("alice@test.com")).isEqualTo(user);
     }
