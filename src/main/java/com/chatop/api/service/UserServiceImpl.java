@@ -1,9 +1,5 @@
 package com.chatop.api.service;
 
-
-import java.util.Optional;
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -53,7 +49,7 @@ public class UserServiceImpl implements UserService{
     public User getUserByEmail(String email) throws ResourceNotFoundException {
         return userMapper.entityToModel(
             this.userRepository.findByEmail(email)
-            .orElseThrow(()->new ResourceNotFoundException("Unknown user email"))
+                .orElseThrow(()->new ResourceNotFoundException("Unknown user email"))
         );
     }
     
