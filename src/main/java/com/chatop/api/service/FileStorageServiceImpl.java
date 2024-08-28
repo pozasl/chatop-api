@@ -33,7 +33,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public String saveFile(MultipartFile file) throws Exception {
+    public String saveFile(MultipartFile file) throws FileStorageException {
         try {
             if (file.isEmpty()) {
                 throw new FileStorageException("Failed to store empty file.");
@@ -60,7 +60,7 @@ public class FileStorageServiceImpl implements FileStorageService {
      * @return
      * @throws Exception
      */
-    private String createFileName(String originalName) throws Exception{
+    private String createFileName(String originalName) throws FileUploadException{
         List<String> allowedExtensionList = List.of("jpg","png");
         String prefix = "picture";
         int lastDotIndex = originalName.lastIndexOf(".");
@@ -73,10 +73,15 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public void deleteFile(String fileLocation) throws Exception {
+    public void deleteFile(String fileLocation) throws FileStorageException {
         Path filePath = Paths.get(fileLocation);
         checkFileParentFolder(filePath);
-        Files.delete(filePath);
+        try {
+            Files.delete(filePath);
+        } catch (Exception e) {
+            throw new FileStorageException(e.getMessage());
+        }
+        
     }
 
     /**

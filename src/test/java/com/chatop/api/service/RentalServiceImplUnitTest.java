@@ -31,7 +31,7 @@ import com.chatop.api.repository.RentalRepository;
 import com.chatop.api.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class RentalServiceImplUnitTest {
+class RentalServiceImplUnitTest {
 
     @Mock
     RentalRepository rentalRepository;
@@ -48,7 +48,7 @@ public class RentalServiceImplUnitTest {
     private  DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 
     @Test
-    public void getAllRentalsShouldWork() {
+    void getAllRentalsShouldWork() {
         
         UserEntity bob = new UserEntity();
         bob.setId(1);
@@ -98,7 +98,7 @@ public class RentalServiceImplUnitTest {
     }
 
     @Test
-    public void createRentalShouldWork() throws Exception{
+    void createRentalShouldWork() throws Exception{
         InputStream jpgStream = this.getClass().getClassLoader().getResourceAsStream("img/test.jpg");
         MockMultipartFile file = new MockMultipartFile(
             "picture", 
@@ -129,11 +129,11 @@ public class RentalServiceImplUnitTest {
         );
         Rental rental = rentalService.createRental(newRental, "bob@test.com", "upload/test.jpg");
         assertEquals(rental.ownerId(),user.getId());
-        assertEquals(rental.picture(),"upload/test.jpg");
+        assertEquals("upload/test.jpg", rental.picture());
     }
 
     @Test
-    public void getRentalByIdShouldWork() throws Exception{
+    void getRentalByIdShouldWork() throws Exception{
         Date now = df.parse("2024/08/25");
         UserEntity bob = new UserEntity();
         bob.setId(1);
@@ -164,13 +164,13 @@ public class RentalServiceImplUnitTest {
     }
 
     @Test
-    public void getRentalByIdShouldTrow() throws Exception{
+    void getRentalByIdShouldTrow() throws ResourceNotFoundException{
         Mockito.when(rentalRepository.findById(1)).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class, () -> rentalService.getRentalById(1),"Unknown rental id");
     }
 
     @Test
-    public void saveRentalByIdShouldWork() throws Exception{
+    void saveRentalByIdShouldWork() throws Exception{
         NewRental newRental = new NewRental("rental", 20, 120, null, "desc");
         Date now = df.parse("2024/08/25");
         UserEntity bob = new UserEntity();
@@ -204,7 +204,7 @@ public class RentalServiceImplUnitTest {
     }
 
     @Test
-    public void saveRentalByIdShouldThrowIfUnknownId() throws Exception{
+    void saveRentalByIdShouldThrowIfUnknownId() throws Exception{
         NewRental newRental = new NewRental("rental", 20, 120, null, "desc");
         Date now = df.parse("2024/08/25");
         UserEntity bob = new UserEntity();
@@ -221,11 +221,15 @@ public class RentalServiceImplUnitTest {
         entity1.setCreationDate(now);
         entity1.setModificationDate(now);
         Mockito.when(rentalRepository.findById(1)).thenReturn(Optional.empty());
-        assertThrows(ResourceNotFoundException.class, () -> rentalService.saveRentalById(1, newRental, bob.getEmail()),"Unknown rental id");
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> rentalService.saveRentalById(1, newRental, "bob@test.com"),
+            "Unknown rental id"
+        );
     }
 
     @Test
-    public void saveRentalByIdShouldThrowIfNotOwner() throws Exception{
+    void saveRentalByIdShouldThrowIfNotOwner() throws Exception{
         NewRental newRental = new NewRental("rental", 20, 120, null, "desc");
         Date now = df.parse("2024/08/25");
         UserEntity bob = new UserEntity();
@@ -246,6 +250,10 @@ public class RentalServiceImplUnitTest {
         entity1.setModificationDate(now);
         Mockito.when(rentalRepository.findById(1)).thenReturn(Optional.of(entity1));
         Mockito.when(userRepository.findByEmail(alice.getEmail())).thenReturn(alice);
-        assertThrows(AccessDeniedException.class, () -> rentalService.saveRentalById(1, newRental, alice.getEmail()),"Not the rental owner");
+        assertThrows(
+            AccessDeniedException.class,
+            () -> rentalService.saveRentalById(1, newRental, "alice@test.com"),
+            "Not the rental owner"
+        );
     }
 }

@@ -17,7 +17,7 @@ import com.chatop.api.service.UserServiceImpl;
 
 @WebMvcTest(controllers = AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class AuthControllerUnitTest {
+class AuthControllerUnitTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -33,7 +33,7 @@ public class AuthControllerUnitTest {
 
 
   @Test
-  public void testRegister() throws Exception {
+  void testRegister() throws Exception {
     String jsonStr = "{\"email\": \"alice@test.com\",\"name\":\"alice\",\"password\": \"pass1234\"}";
     mockMvc.perform(
       post("/api/auth/register")
@@ -43,7 +43,7 @@ public class AuthControllerUnitTest {
   }
 
   @Test
-  public void testRegisterShortPassRejection() throws Exception {
+  void testRegisterShortPassRejection() throws Exception {
     String jsonStr = "{\"email\": \"jeff@test.com\",\"name\":\"jeff\",\"password\": \"pass\"}";
     mockMvc.perform(
       post("/api/auth/register")
@@ -53,7 +53,7 @@ public class AuthControllerUnitTest {
   }
 
   @Test
-  public void testRegisterWrongEmailRejection() throws Exception {
+  void testRegisterWrongEmailRejection() throws Exception {
     String jsonStr = "{\"email\": \"jeff-test.com\",\"name\":\"jeff\",\"password\": \"pass1234\"}";
     mockMvc.perform(
       post("/api/auth/register")
@@ -63,7 +63,7 @@ public class AuthControllerUnitTest {
   }
 
   @Test
-  public void testRegisterEmptyNameRejection() throws Exception {
+  void testRegisterEmptyNameRejection() throws Exception {
     String jsonStr = "{\"email\": \"jeff@test.com\",\"name\":\"\",\"password\": \"pass1234\"}";
     mockMvc.perform(
       post("/api/auth/register")
@@ -73,7 +73,7 @@ public class AuthControllerUnitTest {
   }
 
   @Test
-  public void testLogin() throws Exception {
+  void testLogin() throws Exception {
     String jsonStr = "{\"email\": \"alice@test.com\",\"password\": \"pass1234\"}";
     mockMvc.perform(
       post("/api/auth/login")
@@ -83,7 +83,7 @@ public class AuthControllerUnitTest {
   }
 
   @Test
-  public void testLoginWithoutEmailRejection() throws Exception {
+  void testLoginWithoutEmailRejection() throws Exception {
     String jsonStr = "{\"email\": \"\",\"password\": \"pass1234\"}";
     mockMvc.perform(
       post("/api/auth/login")
@@ -93,7 +93,7 @@ public class AuthControllerUnitTest {
   }
 
   @Test
-  public void testLoginWithoutPasswordRejection() throws Exception {
+  void testLoginWithoutPasswordRejection() throws Exception {
     String jsonStr = "{\"email\": \"\",\"password\": \"\"}";
     mockMvc.perform(
       post("/api/auth/login")

@@ -19,7 +19,7 @@ import com.chatop.api.service.MessageService;
 
 @WebMvcTest(controllers = MessageController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class MessageControllerUnitTest {
+class MessageControllerUnitTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -28,7 +28,7 @@ public class MessageControllerUnitTest {
     MessageService messageService;
 
     @Test
-    public void createMessage() throws Exception {
+    void createMessage() throws Exception {
         String msg = "{\"message\": \"Hello worl!\", \"user_id\": 1, \"rental_id\":1}";
         Principal mockPrincipal = Mockito.mock(Authentication.class);
         Mockito.when(mockPrincipal.getName()).thenReturn("bob@test.com");

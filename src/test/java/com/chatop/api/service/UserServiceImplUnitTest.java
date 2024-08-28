@@ -27,7 +27,7 @@ import com.chatop.api.model.UserMapper;
 import com.chatop.api.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceImplUnitTest {
+class UserServiceImplUnitTest {
 
     @Mock
     UserRepository userRepository;
@@ -41,7 +41,7 @@ public class UserServiceImplUnitTest {
     private  DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 
     @Test
-    public void getUserByIdShoudWork() throws Exception {
+    void getUserByIdShoudWork() throws Exception {
         Date now = df.parse("2024/08/25");
         UserEntity userEntity = new UserEntity();
         userEntity.setId(1);
@@ -57,7 +57,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void getUserByIdShoudThrow() throws Exception {
+    void getUserByIdShoudThrow() throws ResourceNotFoundException {
         int userId = 999999999;
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.empty());
         assertThrows(
@@ -68,7 +68,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void createUserShoudWork() throws Exception {
+    void createUserShoudWork() throws Exception {
         NewUser newUser = new NewUser("alice", "alice@test.com", "pass1234");
         User user = new User(2,"alice","alice@test.com", "2024/08/25","2024/08/25");
         Mockito.when(userRepository.findByEmail("alice@test.com")).thenReturn(null);
@@ -78,7 +78,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void createUserShoudThrow() throws Exception {
+    void createUserShoudThrow() throws UserAlreadyExistsException {
         NewUser newUser = new NewUser("alice", "alice@test.com", "pass1234");
         Mockito.when(userRepository.findByEmail("alice@test.com")).thenReturn(new UserEntity());
         assertThrows(
@@ -89,7 +89,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void getUserByEmailShouldWork() throws Exception {
+    void getUserByEmailShouldWork() throws Exception {
         Date now = df.parse("2024/08/25");
         UserEntity userEntity = new UserEntity();
         userEntity.setId(2);

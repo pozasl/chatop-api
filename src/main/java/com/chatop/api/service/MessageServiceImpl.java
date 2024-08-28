@@ -32,7 +32,7 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public void create(NewMessage message, String userEmail) throws Exception {
+    public void create(NewMessage message, String userEmail) throws AccessDeniedException, ResourceNotFoundException {
         UserEntity user = userRepository.findByEmail(userEmail);
         if (user.getId() != message.userId())
             throw new AccessDeniedException("Trying to post message with another user id");
