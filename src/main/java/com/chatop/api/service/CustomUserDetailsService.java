@@ -1,7 +1,5 @@
 package com.chatop.api.service;
 
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,10 +25,8 @@ public class CustomUserDetailsService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserEntity entity = userRepository.findByEmail(email);
-        if (Objects.isNull(entity)) 
-            throw new UsernameNotFoundException("Unknown Email address");
-       return new CustomUserDetails(entity);
+        UserEntity entity = userRepository.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException("Unknown Email address") );
+        return new CustomUserDetails(entity);
     }
-
 }

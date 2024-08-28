@@ -2,7 +2,6 @@ package com.chatop.api.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.chatop.api.entity.RentalEntity;
+import com.chatop.api.entity.UserEntity;
 import com.chatop.api.exception.ResourceNotFoundException;
 import com.chatop.api.model.NewRental;
 import com.chatop.api.model.Rental;
@@ -42,9 +42,12 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public Rental createRental(NewRental newRental, String userEmail, String imgSrc) {
+        
         RentalEntity newEntity = new RentalEntity();
         BeanUtils.copyProperties(newRental, newEntity);
-        newEntity.setUser(userRepository.findByEmail(userEmail));
+        newEntity.setUser(userRepository.findByEmail(userEmail).orElseThrow(
+                () -> new ResourceNotFoundException("unkown user")
+        ));
         newEntity.setPicture(imgSrc);
         return rentalMapper.entityToModel(rentalRepository.save(newEntity));
     }
@@ -57,17 +60,19 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public Rental saveRentalById(int id, NewRental rental, String userEmail)  throws AccessDeniedException, ResourceNotFoundException {
+        UserEntity user = userRepository.findByEmail(userEmail).orElseThrow(
+            () -> new ResourceNotFoundException("unkown user")
+        );
         RentalEntity entity = this.getEntityById(id);
-        if (entity.getUser().getId() != userRepository.findByEmail(userEmail).getId())
-            throw new AccessDeniedException("Not the rental owner");
+        if (user.getId() != entity.getUser().getId())
+            throw new AccessDeniedException("not the rental owner");
         BeanUtils.copyProperties(rental, entity);
         return rentalMapper.entityToModel(rentalRepository.save(entity));
     }
-    
+
     private RentalEntity getEntityById(int id) throws ResourceNotFoundException{
-        Optional<RentalEntity> foundRental = rentalRepository.findById(id);
-        if(foundRental.isEmpty())
-            throw new ResourceNotFoundException("Unknown rental id");
-        return foundRental.get();
+        return rentalRepository.findById(id).orElseThrow(
+            ()->new ResourceNotFoundException("Unknown rental id")
+        );
     }
 }

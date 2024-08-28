@@ -3,6 +3,7 @@ package com.chatop.api.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -112,7 +113,7 @@ class RentalServiceImplUnitTest {
         RentalEntity savedRental = new RentalEntity();
         savedRental.setUser(user);
         savedRental.setPicture("upload/test.jpg");
-        Mockito.when(userRepository.findByEmail("bob@test.com")).thenReturn(user);
+        Mockito.when(userRepository.findByEmail("bob@test.com")).thenReturn(Optional.of(user));
         Mockito.when(rentalRepository.save(any())).thenReturn(savedRental);
         Mockito.when(rentalMapper.entityToModel(savedRental)).thenReturn(
             new Rental(
@@ -187,7 +188,7 @@ class RentalServiceImplUnitTest {
         entity1.setCreationDate(now);
         entity1.setModificationDate(now);
         Mockito.when(rentalRepository.findById(1)).thenReturn(Optional.of(entity1));
-        Mockito.when(userRepository.findByEmail(bob.getEmail())).thenReturn(bob);
+        Mockito.when(userRepository.findByEmail(bob.getEmail())).thenReturn(Optional.of(bob));
         Rental rental = new Rental(
             1,
             "rental",
@@ -220,7 +221,8 @@ class RentalServiceImplUnitTest {
         entity1.setUser(bob);
         entity1.setCreationDate(now);
         entity1.setModificationDate(now);
-        Mockito.when(rentalRepository.findById(1)).thenReturn(Optional.empty());
+        Mockito.when(userRepository.findByEmail(bob.getEmail())).thenReturn(Optional.of(bob));
+        Mockito.when(rentalRepository.findById(anyInt())).thenReturn(Optional.empty());
         assertThrows(
             ResourceNotFoundException.class,
             () -> rentalService.saveRentalById(1, newRental, "bob@test.com"),
@@ -249,7 +251,7 @@ class RentalServiceImplUnitTest {
         entity1.setCreationDate(now);
         entity1.setModificationDate(now);
         Mockito.when(rentalRepository.findById(1)).thenReturn(Optional.of(entity1));
-        Mockito.when(userRepository.findByEmail(alice.getEmail())).thenReturn(alice);
+        Mockito.when(userRepository.findByEmail(alice.getEmail())).thenReturn(Optional.of(alice));
         assertThrows(
             AccessDeniedException.class,
             () -> rentalService.saveRentalById(1, newRental, "alice@test.com"),

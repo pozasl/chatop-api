@@ -56,7 +56,7 @@ class MessageServiceImplUnitTest {
         rental.setCreationDate(now);
         rental.setModificationDate(now);
         Optional<RentalEntity> opt = Optional.of(rental);
-        Mockito.when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
+        Mockito.when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
         Mockito.when(rentalRepository.findById(1)).thenReturn(opt);
         NewMessage message = new NewMessage("yo",2,1);
         assertDoesNotThrow(() -> messageService.create(message, user.getEmail()));
