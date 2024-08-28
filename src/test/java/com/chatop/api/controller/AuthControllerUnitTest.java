@@ -74,7 +74,7 @@ class AuthControllerUnitTest {
 
   @Test
   void testLogin() throws Exception {
-    String jsonStr = "{\"email\": \"alice@test.com\",\"password\": \"pass1234\"}";
+    String jsonStr = "{\"login\": \"alice@test.com\",\"password\": \"pass1234\"}";
     mockMvc.perform(
       post("/api/auth/login")
         .contentType(MediaType.APPLICATION_JSON)
@@ -84,7 +84,7 @@ class AuthControllerUnitTest {
 
   @Test
   void testLoginWithoutEmailRejection() throws Exception {
-    String jsonStr = "{\"email\": \"\",\"password\": \"pass1234\"}";
+    String jsonStr = "{\"login\": \"\",\"password\": \"pass1234\"}";
     mockMvc.perform(
       post("/api/auth/login")
         .contentType(MediaType.APPLICATION_JSON)
@@ -94,7 +94,7 @@ class AuthControllerUnitTest {
 
   @Test
   void testLoginWithoutPasswordRejection() throws Exception {
-    String jsonStr = "{\"email\": \"\",\"password\": \"\"}";
+    String jsonStr = "{\"login\": \"\",\"password\": \"\"}";
     mockMvc.perform(
       post("/api/auth/login")
         .contentType(MediaType.APPLICATION_JSON)
