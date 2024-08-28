@@ -57,7 +57,7 @@ public class AuthController {
     @PostMapping("/login")
     public JwtInfo login(@Valid @RequestBody AuthInfo authInfo) throws AuthenticationException {
         Authentication authentication = authenticationManager
-            .authenticate(new UsernamePasswordAuthenticationToken(authInfo.email(), authInfo.password()));
+            .authenticate(new UsernamePasswordAuthenticationToken(authInfo.login(), authInfo.password()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtService.generateToken(authentication);
         return new JwtInfo(token);
