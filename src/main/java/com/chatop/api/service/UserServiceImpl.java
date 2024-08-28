@@ -33,14 +33,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUserById(int id) throws ResourceNotFoundException {
-        Optional<UserEntity> user = this.userRepository.findById(id);
-        if (user.isEmpty()) throw new ResourceNotFoundException("Unknown user id");
-        return userMapper.entityToModel(user.get());
+        return userMapper.entityToModel(this.userRepository.findById(id).orElseThrow(
+            ()->new ResourceNotFoundException("Unknown user id")
+        ));
     }
 
     @Override
     public User createUser(NewUser newUser) throws UserAlreadyExistsException {
-        if (!Objects.isNull(this.userRepository.findByEmail(newUser.email())))
+        if (this.userRepository.findByEmail(newUser.email()).isPresent())
             throw new UserAlreadyExistsException(ErrorCode.USER_ALREADY_EXISTS);
         UserEntity entity = new UserEntity();
         entity.setName(newUser.name());
