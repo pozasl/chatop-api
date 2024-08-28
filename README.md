@@ -84,7 +84,7 @@ source script.sql
 
 #### Launch the REST API Server
 Download the last released JAR:
-[api-1.0.1](https://github.com/pozasl/chatop-api/releases/download/1.0.1/api-1.0.1.jar)
+[api-1.0.2](https://github.com/pozasl/chatop-api/releases/download/1.0.2/api-1.0.2.jar)
 
 Set the database connection parameters as environment variables according to the mysql server settings and created user credentials
 
@@ -103,7 +103,7 @@ mkdir upload
 
 Then run with the command:
 ```Bash
-java -jar api-1.0.1.jar
+java -jar api-1.0.2.jar
 ```
 The backend server will be listening on port 8080
 
