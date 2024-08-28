@@ -13,7 +13,7 @@ import com.chatop.api.service.UserServiceImpl;
 
 @WebMvcTest(controllers = UserController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class UserControllerUnitTest {
+class UserControllerUnitTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -22,7 +22,7 @@ public class UserControllerUnitTest {
     private UserServiceImpl userService;
 
     @Test
-    public void testGetUserById() throws Exception {
+    void testGetUserById() throws Exception {
         mockMvc.perform(get("/api/user/1")).andExpect(status().isOk());
     }
     

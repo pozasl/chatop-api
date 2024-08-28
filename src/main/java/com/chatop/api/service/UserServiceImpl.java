@@ -32,14 +32,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUserById(int id) throws Exception {
+    public User getUserById(int id) throws ResourceNotFoundException {
         Optional<UserEntity> user = this.userRepository.findById(id);
         if (user.isEmpty()) throw new ResourceNotFoundException("Unknown user id");
         return userMapper.entityToModel(user.get());
     }
 
     @Override
-    public User createUser(NewUser newUser) throws Exception {
+    public User createUser(NewUser newUser) throws UserAlreadyExistsException {
         if (!Objects.isNull(this.userRepository.findByEmail(newUser.email())))
             throw new UserAlreadyExistsException(ErrorCode.USER_ALREADY_EXISTS);
         UserEntity entity = new UserEntity();
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUserByEmail(String email) throws Exception {
+    public User getUserByEmail(String email) throws ResourceNotFoundException {
         UserEntity user = this.userRepository.findByEmail(email);
         if (Objects.isNull(user)) throw new ResourceNotFoundException("Unknown user email");
         return userMapper.entityToModel(user);

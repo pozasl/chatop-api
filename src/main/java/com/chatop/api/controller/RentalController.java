@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chatop.api.exception.FileStorageException;
+import com.chatop.api.exception.ResourceNotFoundException;
 import com.chatop.api.model.NewRental;
 import com.chatop.api.model.Rental;
 import com.chatop.api.model.RentalsCollection;
@@ -39,14 +41,14 @@ public class RentalController {
 
     @Operation(summary = "Get all Rentals")
     @GetMapping("/rentals")
-    public RentalsCollection getRentals() throws Exception {
+    public RentalsCollection getRentals() {
         List<Rental>rentals = rentalService.getAllRentals();
         return new RentalsCollection(rentals);
     }
 
     @Operation(summary = "Add a new Rental")
     @PostMapping("/rentals")
-    public ResponseMessageInfo create(@Valid @ModelAttribute NewRental newRental, Authentication auth) throws Exception {
+    public ResponseMessageInfo create(@Valid @ModelAttribute NewRental newRental, Authentication auth) throws FileStorageException {
         String imgSrc = fileStorageService.saveFile(newRental.picture());
         try {
             rentalService.createRental(newRental, auth.getName(), imgSrc);
@@ -55,19 +57,18 @@ public class RentalController {
             fileStorageService.deleteFile(imgSrc);
             throw e;
         }
-        
         return new ResponseMessageInfo("Rental created !");
     }
 
     @Operation(summary = "Get a Rental by its id")
     @GetMapping("/rentals/{id}")
-    public Rental getRentalById(@PathVariable int id) throws Exception {
+    public Rental getRentalById(@PathVariable int id) throws ResourceNotFoundException {
         return rentalService.getRentalById(id);
     }
 
     @Operation(summary = "Update the Rental with id")
     @PutMapping("/rentals/{id}")
-    public ResponseMessageInfo updateRentalById(@PathVariable int id, @Valid @ModelAttribute NewRental newRental, Authentication auth) throws Exception {
+    public ResponseMessageInfo updateRentalById(@PathVariable int id, @Valid @ModelAttribute NewRental newRental, Authentication auth) throws ResourceNotFoundException {
         rentalService.saveRentalById(id, newRental, auth.getName());
         return new ResponseMessageInfo("Rental updated !");
     }

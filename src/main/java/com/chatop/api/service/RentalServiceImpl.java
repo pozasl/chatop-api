@@ -41,7 +41,7 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public Rental createRental(NewRental newRental, String userEmail, String imgSrc) throws Exception{
+    public Rental createRental(NewRental newRental, String userEmail, String imgSrc) {
         RentalEntity newEntity = new RentalEntity();
         BeanUtils.copyProperties(newRental, newEntity);
         newEntity.setUser(userRepository.findByEmail(userEmail));
@@ -50,21 +50,21 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public Rental getRentalById(int id)  throws Exception {
-        RentalEntity entity = this.foundEntityById(id);
+    public Rental getRentalById(int id)  throws ResourceNotFoundException {
+        RentalEntity entity = this.getEntityById(id);
         return rentalMapper.entityToModel(entity);
     }
 
     @Override
-    public Rental saveRentalById(int id, NewRental rental, String userEmail)  throws Exception {
-        RentalEntity entity = this.foundEntityById(id);
+    public Rental saveRentalById(int id, NewRental rental, String userEmail)  throws AccessDeniedException, ResourceNotFoundException {
+        RentalEntity entity = this.getEntityById(id);
         if (entity.getUser().getId() != userRepository.findByEmail(userEmail).getId())
             throw new AccessDeniedException("Not the rental owner");
         BeanUtils.copyProperties(rental, entity);
         return rentalMapper.entityToModel(rentalRepository.save(entity));
     }
     
-    private RentalEntity foundEntityById(int id) throws Exception{
+    private RentalEntity getEntityById(int id) throws ResourceNotFoundException{
         Optional<RentalEntity> foundRental = rentalRepository.findById(id);
         if(foundRental.isEmpty())
             throw new ResourceNotFoundException("Unknown rental id");
