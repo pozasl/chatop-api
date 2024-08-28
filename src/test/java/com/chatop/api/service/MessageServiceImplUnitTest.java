@@ -1,5 +1,7 @@
 package com.chatop.api.service;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
@@ -13,13 +15,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.chatop.api.entity.RentalEntity;
 import com.chatop.api.entity.UserEntity;
+import com.chatop.api.exception.ResourceNotFoundException;
 import com.chatop.api.model.NewMessage;
 import com.chatop.api.repository.MessageRepository;
 import com.chatop.api.repository.RentalRepository;
 import com.chatop.api.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class MessageServiceImplUnitTest {
+class MessageServiceImplUnitTest {
     
     @Mock
     private MessageRepository messageRepository;
@@ -34,7 +37,7 @@ public class MessageServiceImplUnitTest {
     private MessageServiceImpl messageService;
 
     @Test
-    public void createShoudWork() throws Exception {
+    void createShoudWork() throws ResourceNotFoundException {
 
         Date now = Date.from(Instant.now());
         UserEntity user = new UserEntity();
@@ -56,6 +59,6 @@ public class MessageServiceImplUnitTest {
         Mockito.when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
         Mockito.when(rentalRepository.findById(1)).thenReturn(opt);
         NewMessage message = new NewMessage("yo",2,1);
-        messageService.create(message, user.getEmail());
+        assertDoesNotThrow(() -> messageService.create(message, user.getEmail()));
     }
 }

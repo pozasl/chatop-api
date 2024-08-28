@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.Length;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +34,8 @@ public class RentalEntity {
     private int price;
 
     private String picture;
-
+    
+    @Length(max=2000)
     private String description;
 
     @ManyToOne

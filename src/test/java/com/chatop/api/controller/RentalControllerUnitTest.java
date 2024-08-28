@@ -24,7 +24,7 @@ import com.chatop.api.service.RentalServiceImpl;
 
 @WebMvcTest(controllers = RentalController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class RentalControllerUnitTest {
+class RentalControllerUnitTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -36,7 +36,7 @@ public class RentalControllerUnitTest {
   private FileStorageServiceImpl fileStorageService;
 
   @Test
-  public void getRentals() throws Exception {
+  void getRentals() throws Exception {
     mockMvc.perform(get("/api/rentals")).andExpect(status().isOk());
   }
 

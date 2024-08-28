@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chatop.api.exception.ResourceNotFoundException;
 import com.chatop.api.model.User;
 import com.chatop.api.service.UserService;
 
@@ -24,7 +25,7 @@ public class UserController {
 
     @Operation(summary = "Get a User by its id")
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable int id) throws Exception {
+    public User getUserById(@PathVariable int id) throws ResourceNotFoundException {
         return this.userService.getUserById(id);
     }
 

@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chatop.api.exception.ResourceNotFoundException;
+import com.chatop.api.exception.UserAlreadyExistsException;
 import com.chatop.api.model.AuthInfo;
 import com.chatop.api.model.JwtInfo;
 import com.chatop.api.model.NewUser;
@@ -42,7 +45,7 @@ public class AuthController {
 
     @Operation(summary = "Register a new User")
     @PostMapping("/register")
-    public JwtInfo register(@Valid @RequestBody NewUser newUser ) throws Exception {
+    public JwtInfo register(@Valid @RequestBody NewUser newUser ) throws UserAlreadyExistsException {
         userService.createUser(newUser);
         Authentication authentication = authenticationManager
             .authenticate(new UsernamePasswordAuthenticationToken(newUser.email(), newUser.password()));
@@ -52,9 +55,9 @@ public class AuthController {
 
     @Operation(summary = "Login an existing user")
     @PostMapping("/login")
-    public JwtInfo login(@Valid @RequestBody AuthInfo authInfo) throws Exception {
+    public JwtInfo login(@Valid @RequestBody AuthInfo authInfo) throws AuthenticationException {
         Authentication authentication = authenticationManager
-            .authenticate(new UsernamePasswordAuthenticationToken(authInfo.email(), authInfo.password()));
+            .authenticate(new UsernamePasswordAuthenticationToken(authInfo.login(), authInfo.password()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtService.generateToken(authentication);
         return new JwtInfo(token);
@@ -62,11 +65,14 @@ public class AuthController {
 
     @Operation(summary = "Get the logged in user information")
     @GetMapping("/me")
-    public User me(Authentication auth) throws Exception {
-        if(Objects.isNull(auth)) throw new BadCredentialsException("Couldn't authenticate");
-            User user = userService.getUserByEmail(auth.getName());
-        if(Objects.isNull(user)) throw new BadCredentialsException("Couldn't authenticate");
-            return user;
+    public User me(Authentication auth) throws BadCredentialsException {
+        if(Objects.isNull(auth))
+            throw new BadCredentialsException("Couldn't authenticate");
+        try {
+            return userService.getUserByEmail(auth.getName());
+        } catch (ResourceNotFoundException e) {
+            throw new BadCredentialsException("Couldn't authenticate");
+        }
     }
     
 }

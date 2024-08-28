@@ -12,15 +12,13 @@ import com.chatop.api.entity.UserEntity;
 
 public class CustomUserDetails extends UserEntity implements UserDetails {
 
-    private Collection<GrantedAuthority> authorities =  List.of(new SimpleGrantedAuthority("USER"));
-
     public CustomUserDetails(UserEntity userEntity) {
         BeanUtils.copyProperties(userEntity, this);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return List.of(new SimpleGrantedAuthority("USER"));
     }
 
     @Override
