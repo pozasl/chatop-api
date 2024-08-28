@@ -2,8 +2,6 @@ package com.chatop.api.exception;
 
 import java.util.Locale;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -23,13 +21,6 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ApiErrorHandler {
-    
-    private final MessageSource messageSource;
-
-    @Autowired
-    public ApiErrorHandler(MessageSource source) {
-        messageSource = source;
-    }
 
     // 500
     @ExceptionHandler(Exception.class)
@@ -44,24 +35,21 @@ public class ApiErrorHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ResponseMessageInfo> notFound(final NoHandlerFoundException ex) {
-        ResponseMessageInfo error = new ResponseMessageInfo(ErrorCode.RESOURCE_NOT_FOUND.getErrMsg());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        return createNotFoundResponse(ErrorCode.RESOURCE_NOT_FOUND.getErrMsg());
     }
 
     // 404: No resource found
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ResponseEntity<ResponseMessageInfo> handleResourceNotFoundException(HttpServletRequest request, Exception ex, Locale local) {
-        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        return createNotFoundResponse(ex.getMessage());
     }
 
     // 404: No static resource found
     @ExceptionHandler(NoResourceFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ResponseEntity<ResponseMessageInfo> handleNoResourceFoundException(HttpServletRequest request, Exception ex, Locale local) {
-        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        return createNotFoundResponse(ex.getMessage());
     }
 
     // 400: Bad equest
@@ -77,24 +65,21 @@ public class ApiErrorHandler {
     @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     ResponseEntity<ResponseMessageInfo> handleUsernameNotFoundException(HttpServletRequest request, Exception ex, Locale local) {
-        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+        return createUnauthorizedResponse(ex.getMessage());
     }
 
     // 401: Acces denied
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AccessDeniedException.class)
     ResponseEntity<ResponseMessageInfo> handleAccessDeniedException(HttpServletRequest request, Exception ex, Locale local) {
-        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+        return createUnauthorizedResponse(ex.getMessage());
     }
 
     // 401: Missing auth
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
     ResponseEntity<ResponseMessageInfo> handleBadCredentialsException(HttpServletRequest request, Exception ex, Locale local) {
-        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+        return createUnauthorizedResponse(ex.getMessage());
     }
 
     // 409: Register conflict
@@ -103,6 +88,16 @@ public class ApiErrorHandler {
     ResponseEntity<ResponseMessageInfo> handleUserAlreadyExistsException(HttpServletRequest request, Exception ex, Locale local) {
         ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    private ResponseEntity<ResponseMessageInfo> createNotFoundResponse(String message) {
+        ResponseMessageInfo error = new ResponseMessageInfo(message);
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    private ResponseEntity<ResponseMessageInfo> createUnauthorizedResponse(String message) {
+        ResponseMessageInfo error = new ResponseMessageInfo(message);
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
 }
