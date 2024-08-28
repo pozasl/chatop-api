@@ -27,7 +27,7 @@ public class MessageController {
 
     @Operation(summary = "Post a new message")
     @PostMapping("/messages")
-    public ResponseMessageInfo createMessage(@Valid @RequestBody NewMessage message, Authentication auth) throws Exception{
+    public ResponseMessageInfo createMessage(@Valid @RequestBody NewMessage message, Authentication auth) {
         messageService.create(message, auth.getName());
         return new ResponseMessageInfo("Message send with success");
     }
