@@ -1,7 +1,7 @@
 # Test register endpoint
 echo $(curl -s -w " %{response_code}" localhost:8080/api/auth/register -d '{"email": "alice@test.com","name":"alice","password": "pass1234"}' -H 'Content-Type: application/json')
 # Test login endpoint
-TOKEN=$(curl -s localhost:8080/api/auth/login -d '{"login": "alice@test.com","password": "pass1234"}' -H 'Content-Type: application/json' | jq -r ".token")
+TOKEN=$(curl -s localhost:8080/api/auth/login -d '{"email": "alice@test.com","password": "pass1234"}' -H 'Content-Type: application/json' | jq -r ".token")
 # Test me endpoint
 echo $(curl -s -w " %{response_code}" http://localhost:8080/api/auth/me -H "Authorization: Bearer $TOKEN")
 # Test /api/rentals POST
