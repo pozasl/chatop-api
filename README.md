@@ -105,7 +105,7 @@ The backend server will be listening on port 8080
 
 ## API documentation
 
-The API is documented on [SwaggerHub](https://app.swaggerhub.com/apis/LOICPOZAS/chatop_open-api_definition/v0.0.5)
+The API is documented on [SwaggerHub](https://app.swaggerhub.com/apis/LOICPOZAS/chatop_open-api_definition/v0.0.6)
 
 When the server is running, The API's documentation is available at http://localhost:8080/swagger-ui/index.html
 
