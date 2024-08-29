@@ -1,9 +1,5 @@
 package com.chatop.api.service;
 
-
-import java.util.Optional;
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,14 +29,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUserById(int id) throws ResourceNotFoundException {
-        Optional<UserEntity> user = this.userRepository.findById(id);
-        if (user.isEmpty()) throw new ResourceNotFoundException("Unknown user id");
-        return userMapper.entityToModel(user.get());
+        return userMapper.entityToModel(this.userRepository.findById(id).orElseThrow(
+            ()->new ResourceNotFoundException("Unknown user id")
+        ));
     }
 
     @Override
     public User createUser(NewUser newUser) throws UserAlreadyExistsException {
-        if (!Objects.isNull(this.userRepository.findByEmail(newUser.email())))
+        if (this.userRepository.findByEmail(newUser.email()).isPresent())
             throw new UserAlreadyExistsException(ErrorCode.USER_ALREADY_EXISTS);
         UserEntity entity = new UserEntity();
         entity.setName(newUser.name());
@@ -51,9 +47,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUserByEmail(String email) throws ResourceNotFoundException {
-        UserEntity user = this.userRepository.findByEmail(email);
-        if (Objects.isNull(user)) throw new ResourceNotFoundException("Unknown user email");
-        return userMapper.entityToModel(user);
+        return userMapper.entityToModel(
+            this.userRepository.findByEmail(email)
+                .orElseThrow(()->new ResourceNotFoundException("Unknown user email"))
+        );
     }
     
 }

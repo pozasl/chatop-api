@@ -3,6 +3,7 @@
 # Chatop application backend
 
 This is the Châtop Rental Management System's backend, its REST API manages the USER authentication and exposes the user's rentals and messages.
+It also hosts the uploaded rentals pictures
 
 ## Technologies
 - Java 17
@@ -13,7 +14,6 @@ This is the Châtop Rental Management System's backend, its REST API manages the
 
 @pozasl
 
-
 ## Licensing
 
 &copy; Châtop
@@ -22,29 +22,25 @@ This is the Châtop Rental Management System's backend, its REST API manages the
 
 A Devcontainer environment is provided with a JDK container and a MySQL 8.4.2 container
 
-Otherwise you may need:
+Otherwise you may need to install:
 - JDK 17
-- A MySQL Server 8.4 with a dedicated user and DB
+- A MySQL Server 8.4 with a dedicated user and database (Check the [MySQL](#MySQL) section to setup)
 - Generated RSA key pair in src/main/resources/certs (Follow the included README to generate those keys)
 
-Clone this repository then launch the command
-
-check the [MySQL](#MySQL) section to setup a developpement database
-
-To compile and run in local:
+Clone this repository, then to compile and run in local type the command:
 
 ```Bash
 ./mwnw spring-boot:run
 ```
-The API is exposed on port 8080
-The default profile is the dev profile. It drops the database after each run;
+The API is exposed on port 8080 and accessible from http://localhost:8080
+
 
 To build the final artefact with production settings run:
 
 ```Bash
 ./mwnw -Pprod clean install
 ```
-The Jar file wil be produced in the "target" fodler.
+The Jar file will be produced in the "target" fodler.
 
 
 ## Deployment
@@ -56,7 +52,7 @@ The Jar file wil be produced in the "target" fodler.
 ### Installation
 
 #### MySQL
-Install MySQL server and create a dedicated user whith all right to a dedicated database for the application
+Install MySQL server and create a dedicated user whith all rights to a dedicated database for the application
 
 ```Bash
 mysql -u root -p
@@ -71,7 +67,7 @@ FLUSH PRIVILEGES;
 
 Download the [sql script](https://raw.githubusercontent.com/pozasl/chatop-api/main/src/main/resources/sql/script.sql)
 
-Then initialize the table in the application database with the application user
+Then initialize the table in the application database with the application's user
 
 ```Bash
 mysql -u chatopuser -p
@@ -84,7 +80,7 @@ source script.sql
 
 #### Launch the REST API Server
 Download the last released JAR:
-[api-1.0.2](https://github.com/pozasl/chatop-api/releases/download/1.0.2/api-1.0.2.jar)
+[api-1.0.3](https://github.com/pozasl/chatop-api/releases/download/1.0.3/api-1.0.3.jar)
 
 Set the database connection parameters as environment variables according to the mysql server settings and created user credentials
 
@@ -103,13 +99,13 @@ mkdir upload
 
 Then run with the command:
 ```Bash
-java -jar api-1.0.2.jar
+java -jar api-1.0.3.jar
 ```
 The backend server will be listening on port 8080
 
 ## API documentation
 
-The API is documented on [SwaggerHub](https://app.swaggerhub.com/apis/LOICPOZAS/chatop_open-api_definition/v0.0.5)
+The API is documented on [SwaggerHub](https://app.swaggerhub.com/apis/LOICPOZAS/chatop_open-api_definition/v0.0.6)
 
 When the server is running, The API's documentation is available at http://localhost:8080/swagger-ui/index.html
 
