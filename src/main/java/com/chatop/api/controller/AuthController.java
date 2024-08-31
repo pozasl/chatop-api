@@ -66,12 +66,13 @@ public class AuthController {
     @Operation(summary = "Get the logged in user information")
     @GetMapping("/me")
     public User me(Authentication auth) throws BadCredentialsException {
+        BadCredentialsException exception = new BadCredentialsException("Couldn't authenticate");
         if(Objects.isNull(auth))
-            throw new BadCredentialsException("Couldn't authenticate");
+            throw exception;
         try {
             return userService.getUserByEmail(auth.getName());
         } catch (ResourceNotFoundException e) {
-            throw new BadCredentialsException("Couldn't authenticate");
+            throw exception;
         }
     }
     
