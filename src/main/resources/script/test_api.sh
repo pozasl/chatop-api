@@ -13,9 +13,12 @@ echo $(curl -s -w " %{response_code}" localhost:8080/api/rentals \
   -F "description=BlaBla bla" \
   -H "Authorization: Bearer $TOKEN")
 # test /api/rentals GET
+echo $(curl -s -w " %{response_code}" http://localhost:8080/api/users/1 -H "Authorization: Bearer $TOKEN")
+# test /api/rentals GET
 echo $(curl -s -w " %{response_code}" http://localhost:8080/api/rentals -H "Authorization: Bearer $TOKEN")
 # test /api/rentals/;id GET
 echo $(curl -s -w " %{response_code}" http://localhost:8080/api/rentals/1 -H "Authorization: Bearer $TOKEN")
+echo $(curl -s -w " %{response_code}" http://localhost:8080/api/rentals/9999 -H "Authorization: Bearer $TOKEN")
 # test /api/rentals/;id PUT
 echo $(curl -s -w " %{response_code}" -X PUT localhost:8080/api/rentals/1 \
   -F "name=test3" \
@@ -28,3 +31,4 @@ echo $(curl -s -w " %{response_code}" localhost:8080/api/messages \
   -d '{"message": "Hello worl!", "user_id": 1, "rental_id":1}' \
   -H 'Content-Type: application/json' \
   -H "Authorization: Bearer $TOKEN")
+  # test /api/rentals GET
