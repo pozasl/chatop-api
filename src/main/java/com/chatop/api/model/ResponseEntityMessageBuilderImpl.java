@@ -8,13 +8,14 @@ public class ResponseEntityMessageBuilderImpl implements ResponseEntityMessageBu
     private HttpStatus status;
     private ResponseMessageFactory responseMessageFactory;
 
-    public ResponseEntityMessageBuilderImpl(ResponseMessageFactory responseMessageFactory2) {
-        this.responseMessageFactory = responseMessageFactory2;
+    public ResponseEntityMessageBuilderImpl(ResponseMessageFactory responseMessageFactory) {
+        this.responseMessageFactory = responseMessageFactory;
+        this.status = HttpStatus.OK;
     }
 
     @Override
     public ResponseEntityMessageBuilder setMessage(String message) {
-        this.responseMessageFactory.setMessage(message);
+        responseMessageFactory.setMessage(message);
         return this;
     }
 
