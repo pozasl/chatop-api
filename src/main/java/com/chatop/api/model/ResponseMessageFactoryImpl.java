@@ -2,23 +2,13 @@ package com.chatop.api.model;
 
 public class ResponseMessageFactoryImpl implements ResponseMessageFactory {
 
-    private String message;
-    
-    ResponseMessageFactoryImpl() {
-        this.message = "Ok";
-    };
+    ResponseMessageFactoryImpl() {};
 
     public static ResponseMessageFactory create() {
         return new ResponseMessageFactoryImpl();
     }
 
-    @Override
-    public ResponseMessageFactory setMessage(String message) {
-        this.message = message;
-        return this;
-    }
-
-    public ResponseMessage build() {
+    public ResponseMessage makeResponseMessage(String message) {
         return new ResponseMessageInfo(message);
     }
 

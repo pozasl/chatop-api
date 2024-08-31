@@ -33,7 +33,7 @@ public class MessageController {
     @PostMapping("/messages")
     public ResponseMessage createMessage(@Valid @RequestBody NewMessage message, Authentication auth) {
         messageService.createMessage(message, auth.getName());
-        return responseMessageFactory.setMessage("Message send with success").build();
+        return responseMessageFactory.makeResponseMessage("Message send with success");
     }
     
 }

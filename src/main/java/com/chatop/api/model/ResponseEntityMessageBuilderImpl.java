@@ -6,16 +6,17 @@ import org.springframework.http.ResponseEntity;
 public class ResponseEntityMessageBuilderImpl implements ResponseEntityMessageBuilder{
 
     private HttpStatus status;
+    private String message;
     private ResponseMessageFactory responseMessageFactory;
 
     public ResponseEntityMessageBuilderImpl(ResponseMessageFactory responseMessageFactory) {
         this.responseMessageFactory = responseMessageFactory;
-        this.status = HttpStatus.OK;
+        status = HttpStatus.OK;
     }
 
     @Override
     public ResponseEntityMessageBuilder setMessage(String message) {
-        responseMessageFactory.setMessage(message);
+        this.message = message;
         return this;
     }
 
@@ -27,7 +28,7 @@ public class ResponseEntityMessageBuilderImpl implements ResponseEntityMessageBu
 
     @Override
     public ResponseEntity<ResponseMessage> build() {
-        ResponseMessage responseMessage =  responseMessageFactory.build();
+        ResponseMessage responseMessage =  responseMessageFactory.makeResponseMessage(message);
         return new ResponseEntity<ResponseMessage>(responseMessage, status);
     }
 }

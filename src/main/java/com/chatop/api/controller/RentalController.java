@@ -61,7 +61,7 @@ public class RentalController {
             fileStorageService.deleteFile(imgSrc);
             throw e;
         }
-        return responseMessageFactory.setMessage("Rental created !").build();
+        return responseMessageFactory.makeResponseMessage("Rental created !");
     }
 
     @Operation(summary = "Get a Rental by its id")
@@ -74,6 +74,6 @@ public class RentalController {
     @PutMapping("/rentals/{id}")
     public ResponseMessage updateRentalById(@PathVariable int id, @Valid @ModelAttribute NewRental newRental, Authentication auth) throws ResourceNotFoundException {
         rentalService.saveRentalById(id, newRental, auth.getName());
-        return responseMessageFactory.setMessage("Rental updated !").build();
+        return responseMessageFactory.makeResponseMessage("Rental updated !");
     }
 }
