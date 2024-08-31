@@ -16,14 +16,16 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import com.chatop.api.model.ResponseEntityMessageBuilder;
 import com.chatop.api.model.ResponseEntityMessageBuilderImpl;
 import com.chatop.api.model.ResponseMessage;
+import com.chatop.api.model.ResponseMessageFactoryImpl;
 
 @ControllerAdvice
 public class ApiErrorHandler {
 
     private ResponseEntityMessageBuilder reponseMessageBuilder;
 
-    ApiErrorHandler(ResponseEntityMessageBuilderImpl reponseMessageBuilder) {
-        this.reponseMessageBuilder = reponseMessageBuilder;
+    ApiErrorHandler() {
+        // Avoid spring injection for easier test
+        this.reponseMessageBuilder = new ResponseEntityMessageBuilderImpl(ResponseMessageFactoryImpl.create());
     }
 
     // 500

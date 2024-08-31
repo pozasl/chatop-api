@@ -1,5 +1,7 @@
 package com.chatop.api.model;
 
 public interface ResponseMessageFactory {
-    ResponseMessage create(String message) ;
+
+    ResponseMessageFactory setMessage(String message);
+    ResponseMessage build() ;
 }

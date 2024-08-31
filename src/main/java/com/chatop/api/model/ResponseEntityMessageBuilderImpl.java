@@ -2,22 +2,19 @@ package com.chatop.api.model;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ResponseEntityMessageBuilderImpl implements ResponseEntityMessageBuilder{
 
-    private String message;
     private HttpStatus status;
     private ResponseMessageFactory responseMessageFactory;
 
-    ResponseEntityMessageBuilderImpl(ResponseMessageFactoryImpl responseMessageFactory) {
-        this.responseMessageFactory = responseMessageFactory;
+    public ResponseEntityMessageBuilderImpl(ResponseMessageFactory responseMessageFactory2) {
+        this.responseMessageFactory = responseMessageFactory2;
     }
 
     @Override
     public ResponseEntityMessageBuilder setMessage(String message) {
-        this.message = message;
+        this.responseMessageFactory.setMessage(message);
         return this;
     }
 
@@ -29,8 +26,7 @@ public class ResponseEntityMessageBuilderImpl implements ResponseEntityMessageBu
 
     @Override
     public ResponseEntity<ResponseMessage> build() {
-        ResponseMessage responseMessage =  responseMessageFactory.create(message);
+        ResponseMessage responseMessage =  responseMessageFactory.build();
         return new ResponseEntity<ResponseMessage>(responseMessage, status);
     }
-    
 }
