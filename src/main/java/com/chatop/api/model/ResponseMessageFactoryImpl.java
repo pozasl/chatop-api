@@ -3,6 +3,7 @@ package com.chatop.api.model;
 public class ResponseMessageFactoryImpl implements ResponseMessageFactory {
 
     private String message;
+    
     ResponseMessageFactoryImpl() {
         this.message = "Ok";
     };

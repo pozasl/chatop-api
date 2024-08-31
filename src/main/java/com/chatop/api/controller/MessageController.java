@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chatop.api.model.NewMessage;
-import com.chatop.api.model.ResponseMessageInfo;
+import com.chatop.api.model.ResponseMessage;
+import com.chatop.api.model.ResponseMessageFactory;
+import com.chatop.api.model.ResponseMessageFactoryImpl;
 import com.chatop.api.service.MessageService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,17 +21,19 @@ import jakarta.validation.Valid;
 public class MessageController {
 
     private MessageService messageService;
+    private ResponseMessageFactory responseMessageFactory;
 
     @Autowired
     public MessageController(MessageService messageService) {
         this.messageService = messageService;
+        responseMessageFactory = ResponseMessageFactoryImpl.create();
     }
 
     @Operation(summary = "Post a new message")
     @PostMapping("/messages")
-    public ResponseMessageInfo createMessage(@Valid @RequestBody NewMessage message, Authentication auth) {
-        messageService.create(message, auth.getName());
-        return new ResponseMessageInfo("Message send with success");
+    public ResponseMessage createMessage(@Valid @RequestBody NewMessage message, Authentication auth) {
+        messageService.createMessage(message, auth.getName());
+        return responseMessageFactory.setMessage("Message send with success").build();
     }
     
 }

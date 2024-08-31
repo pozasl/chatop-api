@@ -17,7 +17,9 @@ import com.chatop.api.exception.ResourceNotFoundException;
 import com.chatop.api.model.NewRental;
 import com.chatop.api.model.Rental;
 import com.chatop.api.model.RentalsCollection;
-import com.chatop.api.model.ResponseMessageInfo;
+import com.chatop.api.model.ResponseMessage;
+import com.chatop.api.model.ResponseMessageFactory;
+import com.chatop.api.model.ResponseMessageFactoryImpl;
 import com.chatop.api.service.FileStorageService;
 import com.chatop.api.service.FileStorageServiceImpl;
 import com.chatop.api.service.RentalService;
@@ -32,11 +34,13 @@ public class RentalController {
 
     private RentalService rentalService;
     private FileStorageService fileStorageService;
+    private ResponseMessageFactory responseMessageFactory;
 
     @Autowired
     public RentalController(RentalServiceImpl rentalService, FileStorageServiceImpl fileStorageService) {
         this.rentalService = rentalService;
         this.fileStorageService = fileStorageService;
+        this.responseMessageFactory = ResponseMessageFactoryImpl.create();
     }
 
     @Operation(summary = "Get all Rentals")
@@ -48,7 +52,7 @@ public class RentalController {
 
     @Operation(summary = "Add a new Rental")
     @PostMapping("/rentals")
-    public ResponseMessageInfo create(@Valid @ModelAttribute NewRental newRental, Authentication auth) throws FileStorageException {
+    public ResponseMessage create(@Valid @ModelAttribute NewRental newRental, Authentication auth) throws FileStorageException {
         String imgSrc = fileStorageService.saveFile(newRental.picture());
         try {
             rentalService.createRental(newRental, auth.getName(), imgSrc);
@@ -57,7 +61,7 @@ public class RentalController {
             fileStorageService.deleteFile(imgSrc);
             throw e;
         }
-        return new ResponseMessageInfo("Rental created !");
+        return responseMessageFactory.setMessage("Rental created !").build();
     }
 
     @Operation(summary = "Get a Rental by its id")
@@ -68,8 +72,8 @@ public class RentalController {
 
     @Operation(summary = "Update the Rental with id")
     @PutMapping("/rentals/{id}")
-    public ResponseMessageInfo updateRentalById(@PathVariable int id, @Valid @ModelAttribute NewRental newRental, Authentication auth) throws ResourceNotFoundException {
+    public ResponseMessage updateRentalById(@PathVariable int id, @Valid @ModelAttribute NewRental newRental, Authentication auth) throws ResourceNotFoundException {
         rentalService.saveRentalById(id, newRental, auth.getName());
-        return new ResponseMessageInfo("Rental updated !");
+        return responseMessageFactory.setMessage("Rental updated !").build();
     }
 }

@@ -29,7 +29,7 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public void create(NewMessage message, String userEmail) throws AccessDeniedException, ResourceNotFoundException {
+    public void createMessage(NewMessage message, String userEmail) throws AccessDeniedException, ResourceNotFoundException {
         RentalEntity rental = rentalRepository.findById(message.rentalId()).orElseThrow(
             ()->new ResourceNotFoundException("Unknown rental id")
         );

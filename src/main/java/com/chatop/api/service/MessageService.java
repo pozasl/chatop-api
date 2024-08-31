@@ -6,5 +6,5 @@ import com.chatop.api.exception.ResourceNotFoundException;
 import com.chatop.api.model.NewMessage;
 
 public interface MessageService {
-    public void create(NewMessage message, String userEmail) throws AccessDeniedException, ResourceNotFoundException ;
+    public void createMessage(NewMessage message, String userEmail) throws AccessDeniedException, ResourceNotFoundException ;
 }
