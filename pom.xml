@@ -160,6 +160,12 @@
 					</reports>
 					</reportSet>
 				</reportSets>
+				<configuration>
+					<!-- <violationSeverity>warning</violationSeverity> -->
+					<consoleOutput>true</consoleOutput>
+					<encoding>UTF-8</encoding>
+					<configLocation>google_checks.xml</configLocation>
+				</configuration>
 			</plugin>
 		</plugins>
 	</reporting>

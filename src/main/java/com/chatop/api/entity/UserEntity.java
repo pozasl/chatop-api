@@ -1,10 +1,5 @@
 package com.chatop.api.entity;
 
-import java.util.Date;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,8 +9,14 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.util.Date;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Application's user entity.
+ */
 @Data
 @Entity
 @Table(name = "users", indexes = @Index(name = "users_index", columnList = "email", unique = true))
@@ -39,7 +40,8 @@ public class UserEntity {
 
   @Column(name = "updated_at")
   @UpdateTimestamp
-  @Temporal(TemporalType.TIMESTAMP)
+  @Temporal(TemporalType.TIMESTAMP)  
+  
   protected Date modificationDate;
 
 }

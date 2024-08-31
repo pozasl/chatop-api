@@ -5,14 +5,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+/**
+ * New Message DTO.
+ */
 public record NewMessage(
     @NotBlank
     @Size(max = 2000, message = "{validation.name.size.too_long}")
     String message,
-    @NotNull
-    @JsonProperty("user_id")
+
+    @NotNull @JsonProperty("user_id")
     int userId,
-    @NotNull
-    @JsonProperty("rental_id")
+
+    @NotNull @JsonProperty("rental_id")
     int rentalId
 ) {}
