@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.chatop.api.entity.UserEntity;
 
 @Component
-public class UserMapper extends AbstractEntityToModelMapper{
+public class UserMapper extends AbstractEntityToModelMapper implements EntityToModelMapper<UserEntity, User>{
     public User entityToModel(UserEntity userEntity) {
         return new User(
             userEntity.getId(),

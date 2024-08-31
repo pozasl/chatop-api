@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.chatop.api.entity.RentalEntity;
 
 @Component
-public class RentalMapper extends AbstractEntityToModelMapper {
+public class RentalMapper extends AbstractEntityToModelMapper implements EntityToModelMapper<RentalEntity, Rental> {
     public Rental entityToModel(RentalEntity rentalEntity) {
         return new Rental(
             rentalEntity.getId(),
