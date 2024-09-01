@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.chatop</groupId>
 	<artifactId>api</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<name>api</name>
 	<description>Chatop API project for Spring Boot</description>
 	<url/>
