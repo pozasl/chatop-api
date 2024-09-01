@@ -4,6 +4,10 @@ echo $(curl -s -w " %{response_code}" localhost:8080/api/auth/register -d '{"ema
 TOKEN=$(curl -s localhost:8080/api/auth/login -d '{"email": "alice@test.com","password": "pass1234"}' -H 'Content-Type: application/json' | jq -r ".token")
 # Test me endpoint
 echo $(curl -s -w " %{response_code}" http://localhost:8080/api/auth/me -H "Authorization: Bearer $TOKEN")
+# test /api/user/1
+echo $(curl -s -w " %{response_code}" http://localhost:8080/api/user/1 -H "Authorization: Bearer $TOKEN")
+# test /api/user/9999
+echo $(curl -s -w " %{response_code}" http://localhost:8080/api/user/9999 -H "Authorization: Bearer $TOKEN")
 # Test /api/rentals POST
 echo $(curl -s -w " %{response_code}" localhost:8080/api/rentals \
   -F "name=test" \
@@ -14,9 +18,11 @@ echo $(curl -s -w " %{response_code}" localhost:8080/api/rentals \
   -H "Authorization: Bearer $TOKEN")
 # test /api/rentals GET
 echo $(curl -s -w " %{response_code}" http://localhost:8080/api/rentals -H "Authorization: Bearer $TOKEN")
-# test /api/rentals/;id GET
+# test /api/rentals/1 GET
 echo $(curl -s -w " %{response_code}" http://localhost:8080/api/rentals/1 -H "Authorization: Bearer $TOKEN")
-# test /api/rentals/;id PUT
+# test /api/rentals/9999 GET
+echo $(curl -s -w " %{response_code}" http://localhost:8080/api/rentals/9999 -H "Authorization: Bearer $TOKEN")
+# test /api/rentals/1 PUT
 echo $(curl -s -w " %{response_code}" -X PUT localhost:8080/api/rentals/1 \
   -F "name=test3" \
   -F "surface=20" \
