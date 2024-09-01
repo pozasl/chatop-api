@@ -3,6 +3,8 @@ package com.chatop.api.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.chatop.api.service.JwtServiceImpl;
+import com.chatop.api.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,9 +13,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.web.servlet.MockMvc;
-
-import com.chatop.api.service.JwtServiceImpl;
-import com.chatop.api.service.UserServiceImpl;
 
 @WebMvcTest(controllers = AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -31,15 +30,14 @@ class AuthControllerUnitTest {
   @MockBean
   private AuthenticationManager authenticationManager;
 
-
   @Test
   void testRegister() throws Exception {
-    String jsonStr = "{\"email\": \"alice@test.com\",\"name\":\"alice\",\"password\": \"pass1234\"}";
+    String json = "{\"email\": \"alice@test.com\",\"name\":\"alice\",\"password\": \"pass1234\"}";
     mockMvc.perform(
       post("/api/auth/register")
         .contentType(MediaType.APPLICATION_JSON)
-        .content(jsonStr))
-      .andExpect(status().isOk());
+        .content(json))
+        .andExpect(status().isOk());
   }
 
   @Test
@@ -49,7 +47,7 @@ class AuthControllerUnitTest {
       post("/api/auth/register")
         .contentType(MediaType.APPLICATION_JSON)
         .content(jsonStr))
-      .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -59,7 +57,7 @@ class AuthControllerUnitTest {
       post("/api/auth/register")
         .contentType(MediaType.APPLICATION_JSON)
         .content(jsonStr))
-      .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -69,7 +67,7 @@ class AuthControllerUnitTest {
       post("/api/auth/register")
         .contentType(MediaType.APPLICATION_JSON)
         .content(jsonStr))
-      .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -79,7 +77,7 @@ class AuthControllerUnitTest {
       post("/api/auth/login")
         .contentType(MediaType.APPLICATION_JSON)
         .content(jsonStr))
-      .andExpect(status().isOk());
+        .andExpect(status().isOk());
   }
 
   @Test
@@ -89,7 +87,7 @@ class AuthControllerUnitTest {
       post("/api/auth/login")
         .contentType(MediaType.APPLICATION_JSON)
         .content(jsonStr))
-      .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -99,7 +97,6 @@ class AuthControllerUnitTest {
       post("/api/auth/login")
         .contentType(MediaType.APPLICATION_JSON)
         .content(jsonStr))
-      .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest());
   }
-    
 }

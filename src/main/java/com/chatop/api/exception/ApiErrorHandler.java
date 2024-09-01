@@ -1,7 +1,9 @@
 package com.chatop.api.exception;
 
-import java.util.Locale;
-
+import com.chatop.api.model.ResponseEntityMessageBuilder;
+import com.chatop.api.model.ResponseEntityMessageBuilderImpl;
+import com.chatop.api.model.ResponseMessage;
+import com.chatop.api.model.ResponseMessageFactoryImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -15,89 +17,114 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.chatop.api.model.ResponseMessageInfo;
-
-import jakarta.servlet.http.HttpServletRequest;
-
+/**
+ * Global API error handling.
+ */
 @ControllerAdvice
 public class ApiErrorHandler {
 
-    // 500
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    ResponseEntity<ResponseMessageInfo> handleException(HttpServletRequest request, Exception ex, Locale local) {
-        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  private ResponseEntityMessageBuilder reponseMessageBuilder;
 
-    // 404: No route
-    @ExceptionHandler({ NoHandlerFoundException.class })
-    @ResponseBody
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ResponseMessageInfo> notFound(final NoHandlerFoundException ex) {
-        return createNotFoundResponse(ErrorCode.RESOURCE_NOT_FOUND.getErrMsg());
-    }
+  /**
+   * Constructor.
+   */
+  ApiErrorHandler() {
+    // Avoid spring injection for easier test
+    this.reponseMessageBuilder = new ResponseEntityMessageBuilderImpl(
+      ResponseMessageFactoryImpl.create()
+    );
+  }
 
-    // 404: No resource found
-    @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    ResponseEntity<ResponseMessageInfo> handleResourceNotFoundException(HttpServletRequest request, Exception ex, Locale local) {
-        return createNotFoundResponse(ex.getMessage());
-    }
+  // 500
+  @ExceptionHandler(Exception.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  ResponseEntity<ResponseMessage> handleException(final Exception ex) {
+    return reponseMessageBuilder
+        .setMessage(ex.getMessage())
+        .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+        .build();
+  }
 
-    // 404: No static resource found
-    @ExceptionHandler(NoResourceFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    ResponseEntity<ResponseMessageInfo> handleNoResourceFoundException(HttpServletRequest request, Exception ex, Locale local) {
-        return createNotFoundResponse(ex.getMessage());
-    }
+  /**
+   * 404: No route no handler.
+   *
+   * @param ex the exception to handle
+   * @return Error message response
+   */
+  @ExceptionHandler(NoHandlerFoundException.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ResponseEntity<ResponseMessage> handleNoHandlerFoundException(final Exception ex) {
+    return reponseMessageBuilder
+        .setMessage(ErrorCode.RESOURCE_NOT_FOUND.getErrMsg())
+        .setStatus(HttpStatus.NOT_FOUND)
+        .build();
+  }
 
-    // 400: Bad equest
-    @ExceptionHandler({ MethodArgumentNotValidException.class })
-    @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ResponseMessageInfo> handleMethodArgumentNotValidException(final MethodArgumentNotValidException ex) {
-        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
+  /**
+   * 404: No static resource found or can't find in db.
+   *
+   * @param ex the exception to handle
+   * @return Error message response
+   */
+  @ExceptionHandler({ NoResourceFoundException.class, ResourceNotFoundException.class })
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  ResponseEntity<ResponseMessage> handleNoResourceFoundException(final Exception ex) {
+    return reponseMessageBuilder
+        .setMessage(ex.getMessage())
+        .setStatus(HttpStatus.NOT_FOUND)
+        .build();
+  }
 
-    // 401: Unauthorized
-    @ExceptionHandler(UsernameNotFoundException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    ResponseEntity<ResponseMessageInfo> handleUsernameNotFoundException(HttpServletRequest request, Exception ex, Locale local) {
-        return createUnauthorizedResponse(ex.getMessage());
-    }
+  /**
+   * 404: Bad request.
+   *
+   * @param ex the exception to handle
+   * @return Error message response
+   */
+  @ExceptionHandler({ MethodArgumentNotValidException.class })
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ResponseEntity<ResponseMessage> handleMethodArgumentNotValidException(
+      final MethodArgumentNotValidException ex) {
+    return reponseMessageBuilder
+        .setMessage(ex.getMessage())
+        .setStatus(HttpStatus.BAD_REQUEST)
+        .build();
+  }
 
-    // 401: Acces denied
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(AccessDeniedException.class)
-    ResponseEntity<ResponseMessageInfo> handleAccessDeniedException(HttpServletRequest request, Exception ex, Locale local) {
-        return createUnauthorizedResponse(ex.getMessage());
-    }
+  /**
+   * 401: Unauthorized.
+   *
+   * @param ex the exception to handle
+   * @return Error message response
+   */
+  @ExceptionHandler({
+    UsernameNotFoundException.class,
+    AccessDeniedException.class,
+    BadCredentialsException.class
+  })
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  ResponseEntity<ResponseMessage> handleUnauthorizedException(final Exception ex) {
+    return reponseMessageBuilder
+        .setMessage(ex.getMessage())
+        .setStatus(HttpStatus.UNAUTHORIZED)
+        .build();
+  }
 
-    // 401: Missing auth
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(BadCredentialsException.class)
-    ResponseEntity<ResponseMessageInfo> handleBadCredentialsException(HttpServletRequest request, Exception ex, Locale local) {
-        return createUnauthorizedResponse(ex.getMessage());
-    }
-
-    // 409: Register conflict
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    ResponseEntity<ResponseMessageInfo> handleUserAlreadyExistsException(HttpServletRequest request, Exception ex, Locale local) {
-        ResponseMessageInfo error = new ResponseMessageInfo(ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-    }
-
-    private ResponseEntity<ResponseMessageInfo> createNotFoundResponse(String message) {
-        ResponseMessageInfo error = new ResponseMessageInfo(message);
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-    }
-
-    private ResponseEntity<ResponseMessageInfo> createUnauthorizedResponse(String message) {
-        ResponseMessageInfo error = new ResponseMessageInfo(message);
-        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-    }
+  /**
+   * 409: Conflict (register twice).
+   *
+   * @param ex the exception to handle
+   * @return Error message response
+   */
+  @ResponseStatus(HttpStatus.CONFLICT)
+  @ExceptionHandler(UserAlreadyExistsException.class)
+  ResponseEntity<ResponseMessage> handleUserAlreadyExistsException(final Exception ex) {
+    return reponseMessageBuilder
+        .setMessage(ex.getMessage())
+        .setStatus(HttpStatus.CONFLICT)
+        .build();
+  }
 
 }

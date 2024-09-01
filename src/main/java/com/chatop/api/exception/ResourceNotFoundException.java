@@ -1,26 +1,41 @@
 package com.chatop.api.exception;
 
-public class ResourceNotFoundException extends RuntimeException{
-    private final String errorMsg;
-    private final String errorCode;
+/**
+ * Dynamique ressource not found exception.
+ */
+public class ResourceNotFoundException extends RuntimeException implements ApiException {
+  private final String errorMsg;
+  private final String errorCode;
 
-    public ResourceNotFoundException(ErrorCode code) {
-        super(code.getErrMsg());
-        errorMsg = code.getErrMsg();
-        errorCode = code.getErrCode();
-    }
+  /**
+   * ressource not found exception.
+   *
+   * @param code error code
+   */
+  public ResourceNotFoundException(ErrorCode code) {
+    super(code.getErrMsg());
+    errorMsg = code.getErrMsg();
+    errorCode = code.getErrCode();
+  }
 
-    public ResourceNotFoundException(String message) {
-        super(message);
-        errorMsg = ErrorCode.RESOURCE_NOT_FOUND.getErrMsg();
-        errorCode = ErrorCode.RESOURCE_NOT_FOUND.getErrCode();
-    }
+  /**
+   * ressource not found exception.
+   *
+   * @param message error message
+   */
+  public ResourceNotFoundException(String message) {
+    super(message);
+    errorMsg = ErrorCode.RESOURCE_NOT_FOUND.getErrMsg();
+    errorCode = ErrorCode.RESOURCE_NOT_FOUND.getErrCode();
+  }
 
-    public String getErrorMsg() {
-        return errorMsg;
-    }
+  @Override
+  public String getErrorMsg() {
+    return errorMsg;
+  }
 
-    public String getErrorCode() {
-        return errorCode;
-    }
+  @Override
+  public String getErrorCode() {
+    return errorCode;
+  }
 }
