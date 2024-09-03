@@ -10,6 +10,7 @@ import com.chatop.api.service.JwtService;
 import com.chatop.api.service.JwtServiceImpl;
 import com.chatop.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,7 @@ public class AuthController {
     return new JwtInfo(token);
   }
 
+  
   /**
    * Returns the authenticated user's informations.
    *
@@ -94,6 +96,7 @@ public class AuthController {
    * @throws BadCredentialsException throwed when no authentication or no user
    */
   @Operation(summary = "Get the logged in user information")
+  @SecurityRequirement(name = "Authorization")
   @GetMapping("/me")
   public User me(Authentication auth) throws BadCredentialsException {
     BadCredentialsException exception = new BadCredentialsException("Couldn't authenticate");

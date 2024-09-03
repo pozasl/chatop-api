@@ -6,6 +6,7 @@ import com.chatop.api.model.ResponseMessageFactory;
 import com.chatop.api.model.ResponseMessageFactoryImpl;
 import com.chatop.api.service.MessageService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -31,6 +32,7 @@ public class MessageController {
   }
 
   @Operation(summary = "Post a new message")
+  @SecurityRequirement(name = "Authorization")
   @PostMapping("/messages")
   public ResponseMessage createMessage(
       @Valid @RequestBody NewMessage message,

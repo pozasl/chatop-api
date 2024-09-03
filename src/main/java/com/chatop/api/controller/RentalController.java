@@ -13,6 +13,7 @@ import com.chatop.api.service.FileStorageServiceImpl;
 import com.chatop.api.service.RentalService;
 import com.chatop.api.service.RentalServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,7 @@ public class RentalController {
    * @throws FileStorageException throwed when the file couldn't be stored
    */
   @Operation(summary = "Add a new Rental")
+  @SecurityRequirement(name = "Authorization")
   @PostMapping("/rentals")
   public ResponseMessage create(@Valid @ModelAttribute NewRental newRental, Authentication auth)
       throws FileStorageException {
@@ -82,6 +84,7 @@ public class RentalController {
   }
 
   @Operation(summary = "Get a Rental by its id")
+  @SecurityRequirement(name = "Authorization")
   @GetMapping("/rentals/{id}")
   public Rental getRentalById(@PathVariable int id) throws ResourceNotFoundException {
     return rentalService.getRentalById(id);
@@ -97,6 +100,7 @@ public class RentalController {
    * @throws ResourceNotFoundException throwed for unknown rental id
    */
   @Operation(summary = "Update the Rental with id")
+  @SecurityRequirement(name = "Authorization")
   @PutMapping("/rentals/{id}")
   public ResponseMessage updateRentalById(
       @PathVariable int id,
