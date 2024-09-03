@@ -80,7 +80,7 @@ source script.sql
 
 #### Launch the REST API Server
 Download the last released JAR:
-[api-1.0.4](https://github.com/pozasl/chatop-api/releases/download/1.0.4/api-1.0.4.jar)
+[api-1.0.5](https://github.com/pozasl/chatop-api/releases/download/1.0.5/api-1.0.5.jar)
 
 Set the database connection parameters as environment variables according to the mysql server settings and created user credentials
 
@@ -99,13 +99,13 @@ mkdir upload
 
 Then run with the command:
 ```Bash
-java -jar api-1.0.4.jar
+java -jar api-1.0.5.jar
 ```
 The backend server will be listening on port 8080
 
 ## API documentation
 
-The API is documented on [SwaggerHub](https://app.swaggerhub.com/apis/LOICPOZAS/chatop_open-api_definition/v0.0.6)
+The API is documented on [SwaggerHub](https://app.swaggerhub.com/apis/LOICPOZAS/chatop_open-api_definition/v0.0.7)
 
 When the server is running, The API's documentation is available at http://localhost:8080/swagger-ui/index.html
 
