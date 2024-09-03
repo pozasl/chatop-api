@@ -13,11 +13,9 @@ import com.chatop.api.service.FileStorageServiceImpl;
 import com.chatop.api.service.RentalService;
 import com.chatop.api.service.RentalServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,16 +25,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Rentals controller.
  */
 @RestController
-@RequestMapping(value="/api/rentals", produces=MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/rentals", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RentalController {
 
   private RentalService rentalService;
@@ -69,11 +64,7 @@ public class RentalController {
   /**
    * Create a new Rental.
    *
-   * @param name Rental's name
-   * @param surface Rental's surface
-   * @param price Rental's price
-   * @param picture Rental's picture
-   * @param description Rental's description
+   * @param newRental New rental
    * @param auth User's authentication
    * @return A confirmation response message
    * @throws FileStorageException throwed when the file couldn't be stored
@@ -84,36 +75,12 @@ public class RentalController {
       consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}
   )
   public ResponseMessage create(
-      @RequestParam(required = true)
-      @NotBlank(message = "Name is mandatory")
-      @Size(max = 255, message = "{validation.name.size.too_long}")
-      String name,
-
-      @RequestParam
-      @NotNull
-      @PositiveOrZero(message = "Surface must be a positive number")
-      int surface,
-
-      @RequestParam
-      @NotNull
-      @PositiveOrZero(message = "Price must be a positive number")
-      int price,
-
-      @RequestPart(required = true)
-      @NotNull
-      MultipartFile picture,
-
-      @RequestParam
-      @NotNull(message = "Missing description parameter")
-      @Size(max = 2000, message = "{validation.name.size.too_long}")
-      String description,
-
+      @RequestBody @Valid final NewRental newRental,
       Authentication auth
   )
       throws FileStorageException {
-    String imgSrc = fileStorageService.saveFile(picture);
+    String imgSrc = fileStorageService.saveFile(newRental.picture());
     try {
-      NewRental newRental = new NewRental(name, surface, price, picture, description);
       rentalService.createRental(newRental, auth.getName(), imgSrc);
     } catch (Exception e) {
       fileStorageService.deleteFile(imgSrc);
@@ -133,10 +100,7 @@ public class RentalController {
    * Update a rental by its id.
    *
    * @param id the rental's id to update
-   * @param name Rental's name
-   * @param surface Rental's surface
-   * @param price Rental's price
-   * @param description Rental's description
+   * @param newRental the modified Rental
    * @param auth the user's authentication
    * @return A confirmation response message
    * @throws ResourceNotFoundException throwed for unknown rental id
@@ -146,31 +110,12 @@ public class RentalController {
   @PutMapping(
       value = "/{id}",
       consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}
-    )
+  )
   public ResponseMessage updateRentalById(
       @PathVariable int id,
-      @RequestParam(required = true)
-      @NotBlank(message = "Name is mandatory")
-      @Size(max = 255, message = "{validation.name.size.too_long}")
-      String name,
-
-      @RequestParam
-      @NotNull
-      @PositiveOrZero(message = "Surface must be a positive number")
-      int surface,
-
-      @RequestParam
-      @NotNull
-      @PositiveOrZero(message = "Price must be a positive number")
-      int price,
-
-      @RequestParam
-      @NotNull(message = "Missing description parameter")
-      @Size(max = 2000, message = "{validation.name.size.too_long}")
-      String description,
+      @RequestBody @Valid final NewRental newRental,
       Authentication auth
   ) throws ResourceNotFoundException {
-    NewRental newRental = new NewRental(name, surface, price, null, description);
     rentalService.saveRentalById(id, newRental, auth.getName());
     return responseMessageFactory.makeResponseMessage("Rental updated !");
   }
