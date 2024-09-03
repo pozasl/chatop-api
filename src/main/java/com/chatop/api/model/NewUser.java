@@ -12,10 +12,12 @@ public record NewUser(
     @Size(max = 255, message = "{validation.name.size.too_long}")
     String name,
 
+    @NotBlank(message = "Email is mandatory")
     @Email(message = "Invalid email")
     @Size(max = 255, message = "{validation.name.size.too_long}")
     String email,
 
+    @NotBlank(message = "Passord is mandatory")
     @Size(min = 6, message = "Password must be at least 6 characters long")
     @Size(max = 255, message = "{validation.name.size.too_long}")
     String password
