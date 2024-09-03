@@ -55,6 +55,7 @@ public class RentalController {
   }
 
   @Operation(summary = "Get all Rentals")
+  @SecurityRequirement(name = "Authorization")
   @GetMapping
   public RentalsCollection getRentals() {
     List<Rental> rentals = rentalService.getAllRentals();
