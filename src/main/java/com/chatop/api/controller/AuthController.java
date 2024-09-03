@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Authentication controller.
  */
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthController {
 
   private AuthenticationManager authenticationManager;
@@ -60,7 +61,7 @@ public class AuthController {
    * @throws UserAlreadyExistsException Throwed if the user's email is already registered
    */
   @Operation(summary = "Register a new User")
-  @PostMapping("/register")
+  @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
   public JwtInfo register(@Valid @RequestBody NewUser newUser) throws UserAlreadyExistsException {
     userService.createUser(newUser);
     Authentication authentication = authenticationManager
@@ -77,7 +78,7 @@ public class AuthController {
    * @throws AuthenticationException Throwed when the authentication failed
    */
   @Operation(summary = "Login an existing user")
-  @PostMapping("/login")
+  @PostMapping(value = "/login", consumes  = MediaType.APPLICATION_JSON_VALUE)
   public JwtInfo login(@Valid @RequestBody AuthInfo authInfo) throws AuthenticationException {
     Authentication authentication = authenticationManager.authenticate(
       new UsernamePasswordAuthenticationToken(authInfo.email(), authInfo.password())
